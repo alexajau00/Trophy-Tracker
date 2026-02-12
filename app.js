@@ -1,3 +1,6 @@
+/**
+ * Code Adapted from CS340 bsg_people sample web application
+ */
 // ########################################
 // ########## SETUP
 
