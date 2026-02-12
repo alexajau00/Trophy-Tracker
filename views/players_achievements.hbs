@@ -1,0 +1,39 @@
+<h1>Players Achievements</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each playerAchievements.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each playerAchievements}}
+        <tr>
+            <td>{{this.playerAchievementID}}</td>
+            <td>{{this.username}}</td>
+            <td>{{this.achievementName}}</td>
+            <td>{{this.dateAchieved}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_playerAchievement_form'>
+                <input type='hidden' name='delete_Achievement_ID' value='{{this.playerAchievementID}}' />
+                <input type='hidden' name='delete_Achievement_ID' value=' {{this.username}} - {{this.achievementName}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

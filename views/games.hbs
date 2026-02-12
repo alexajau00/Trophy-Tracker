@@ -1,0 +1,78 @@
+<h1>Games</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each games.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each games}}
+        <tr>
+            <td>{{this.gameID}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.developer}}</td>
+            <td>{{this.releaseYear}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_game_form'>
+                <input type='hidden' name='delete_game_ID' value='{{this.gameID}}' />
+                <input type='hidden' name='delete_game_ID' value='{{this.gameID}} {{this.title}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a Game</h2>
+<form class='cuForm' id='create_game_form'>
+    <label for='create_game_title'>Title: </label>
+    <input type='text' name='create_game_title' id='create_game_title' required />
+
+    <label for='create_game_developer'>Developer: </label>
+    <input type='text' name='create_game_developer' id='create_game_developer' required />
+
+    <label for='create_game_releaseYear'>Release Year: </label>
+    <input type='number' name='create_game_releaseYear' id='create_game_releaseYear' min='1900' max='2100' required />
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Game</h2>
+<form class='cuForm' id='update_game_form'>
+    <label for='update_game_id'>Game to Update: </label>
+    <select name='update_game_id' id='update_game_id' required>
+        <option value='' disabled selected>Select a Game</option>
+        {{#each games}}
+        <option value='{{this.gameID}}' required>
+            {{this.gameID}}
+            -
+            {{this.title}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_platform_name'>Name: </label>
+    <input type='text' name='update_platform_name' id='update_platform_name' required>
+
+    <label for='update_platform_manufacturer'>Manufacturer: </label>
+    <input type='text' name='update_platform_manufacturer' id='update_platform_manufacturer' required />
+
+    <input type='submit' />
+</form>

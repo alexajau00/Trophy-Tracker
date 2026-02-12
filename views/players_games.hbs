@@ -1,0 +1,38 @@
+<h1>Players Games</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each playerGames.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each playerGames}}
+        <tr>
+            <td>{{this.playerGameID}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.username}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_playerGame_form'>
+                <input type='hidden' name='delete_playerGame_ID' value='{{this.playerGameID}}' />
+                <input type='hidden' name='delete_playerGame_ID' value=' {{this.title}} - {{this.username}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

@@ -1,0 +1,96 @@
+<h1>Achievements</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each achievements.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each achievements}}
+        <tr>
+            <td>{{this.achievementID}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.achievementName}}</td>
+            <td>{{this.isHidden}}</td>
+            <td>{{this.rarityPercentage}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_achievement_form'>
+                <input type='hidden' name='delete_achievement_ID' value='{{this.achievementID}}' />
+                <input type='hidden' name='delete_achievement_ID' value='{{this.achievementID}} {{this.achievementName}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a Achievement</h2>
+<form class='cuForm' id='create_achievement_form'>
+    <label for='create_achievement_title'>Title: </label>
+    <input type='text' name='create_achievement_title' id='create_achievement_title' required />
+
+    <label for='create_achievement_name'>Name: </label>
+    <input type='text' name='create_achievement_name' id='create_achievement_name' required />
+
+    <label for='create_achievement_achievementName'>Achievement Name: </label>
+    <input type='text' name='create_achievement_achievementName' id='create_achievement_achievementName' required />
+
+    <label for='create_achievement_isHidden'>Hidden Achievement: </label>
+    <input type='checkbox' name='create_achievement_isHidden' id='create_achievementisHidden' value='0'/>
+
+    <label for='create_achievement_rarityPercentage'>Hidden Achievement: </label>
+    <input type='number' name='create_achievement_rarityPercentage' id='create_achievement_rarityPercentage' min='0' max='100' required />
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a achievement</h2>
+<form class='cuForm' id='update_achievement_form'>
+    <label for='update_achievement_id'>Achievement to Update: </label>
+    <select name='update_achievement_id' id='update_achievement_id' required>
+        <option value='' disabled selected>Select a Achievement</option>
+        {{#each achievements}}
+        <option value='{{this.achievementID}}' required>
+            {{this.achievementID}}
+            -
+            {{this.achievementName}}
+            -
+            {{this.name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_achievement_title'>Title: </label>
+    <input type='text' name='update_achievement_title' id='update_achievement_title' required />
+
+    <label for='update_achievement_name'>Name: </label>
+    <input type='text' name='update_achievement_name' id='update_achievement_name' required />
+
+    <label for='update_achievement_achievementName'>Achievement Name: </label>
+    <input type='text' name='update_achievement_achievementName' id='update_achievement_achievementName' required />
+
+    <label for='update_achievement_isHidden'>Hidden Achievement: </label>
+    <input type='checkbox' name='update_achievement_isHidden' id='update_achievementisHidden' value='0'/>
+
+    <label for='update_achievement_rarityPercentage'>Hidden Achievement: </label>
+    <input type='number' name='update_achievement_rarityPercentage' id='update_achievement_rarityPercentage' min='0' max='100' required />
+    <input type='submit' />
+</form>

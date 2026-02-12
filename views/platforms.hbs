@@ -1,0 +1,74 @@
+<h1>Platforms</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each platforms.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each platforms}}
+        <tr>
+            <td>{{this.platformID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.manufacturer}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_plaform_form'>
+                <input type='hidden' name='delete_platform_ID' value='{{this.platformID}}' />
+                <input type='hidden' name='delete_platform_ID' value='{{this.platformID}} {{this.name}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a Platform</h2>
+<form class='cuForm' id='create_platform_form'>
+    <label for='create_platform_name'>Name: </label>
+    <input type='text' name='create_platform_name' id='create_platform_name' required />
+
+    <label for='create_platform_manufacturer'>Manufacturer: </label>
+    <input type='text' name='create_platform_manufacturer' id='create_platform_manufacturer' required />
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Platform</h2>
+<form class='cuForm' id='update_platform_form'>
+    <label for='update_platform_id'>Platform to Update: </label>
+    <select name='update_platform_id' id='update_person_id' required>
+        <option value='' disabled selected>Select a Platform</option>
+        {{#each platforms}}
+        <option value='{{this.platformID}}' required>
+            {{this.platformID}}
+            -
+            {{this.name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_platform_name'>Name: </label>
+    <input type='text' name='update_platform_name' id='update_platform_name' required>
+
+    <label for='update_platform_manufacturer'>Manufacturer: </label>
+    <input type='text' name='update_platform_manufacturer' id='update_platform_manufacturer' required />
+
+    <input type='submit' />
+</form>
