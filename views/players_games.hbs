@@ -103,8 +103,8 @@
     document.getElementById('update_playerGames_id').addEventListener('change', function(){
         const selectedOption = this.options[this.selectedIndex];
 
-        const playerID = selectedOption.dataset.playerid
-        const gameID = selectedOption.dataset.gameid
+        const playerID = selectedOption.dataset.playerid;
+        const gameID = selectedOption.dataset.gameid;
 
         document.getElementById('update_playerGames_username').value = playerID;
         document.getElementById('update_playerGames_title').value = gameID;
