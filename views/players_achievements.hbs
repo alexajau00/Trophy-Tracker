@@ -6,11 +6,10 @@
     <thead>
         {{! For the table header row, we print the DB attribute names }}
         <tr>
-            {{#each playerAchievements.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>Player Achievement ID</th>
+            <th>Username</th>
+            <th>Achievement Name</th>
+            <th>Date Achieved</th>
             <th></th>
         </tr>
     </thead>
@@ -38,3 +37,88 @@
         {{/each}}
     </tbody>
 </table>
+
+{{! CREATE form }}
+<h2>Add a Players Achievement</h2>
+<form class='cuForm' id='create_playerAchievements_form'>
+    <label for='create_playerAchievements_username'>Username: </label>
+    <select name='create_playerAchievements_username' id='create_playerAchievements_username' required>
+        <option value='' disabled selected>Select a User</option>
+        {{#each players}}
+        <option value='{{this.playerID}}' required>
+            {{this.username}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='create_playerAchievements_achievementName'>Achievement Name: </label>
+    <select name='create_playerAchievements_achievementName' id='create_playerAchievements_achievementName' required>
+        <option value='' disabled selected>Select a Achievement</option>
+        {{#each achievements}}
+        <option value='{{this.achievementID}}' required>
+            {{this.achievementName}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='create_playerAchievements_dateAchieved'>Date Achieved: </label>
+    <input type='date' name='create_playerAchievements_dateAchieved' id='create_playerAchievements_dateAchieved'/>
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Players Achievements</h2>
+<form class='cuForm' id='update_playerAchievements_form'>
+    <label for='update_playerAchievements_id'>Players Game ID to Update: </label>
+    <select name='update_playerAchievements_id' id='update_playerAchievements_id' required>
+        <option value='' disabled selected>Select a Players Achievement ID</option>
+        {{#each playerAchievements}}
+        <option value='{{this.playerAchievementsID}}'
+            data-playerid ='{{this.playerID}}'
+            data-achievementid='{{this.achievementID}}' 
+            data-date = '{{this.dateAchieved}}'required>
+            {{this.playerAchievementID}}
+            </option>
+        {{/each}}
+    </select>
+
+    <label for='update_playerAchievements_username'>Username to Update: </label>
+    <select name='update_playerAchievements_username' id='update_playerAchievements_username' required>
+        <option value='' disabled selected>Select a Username</option>
+        {{#each players}}
+        <option value='{{this.playerID}}' required>
+            {{this.username}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_playerAchievements_achievementName'>Achievement to Update: </label>
+    <select name='update_playerAchievements_achievementName' id='update_playerAchievements_achievementName' required>
+        <option value='' disabled selected>Select a Achievement</option>
+        {{#each achievements}}
+        <option value='{{this.achievementID}}' required>
+            {{this.achievementName}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_playerAchievements_dateAchieved'>Date Achieved: </label>
+    <input type='date' name='update_playerAchievements_dateAchieved' id='update_playerAchievements_dateAchieved'/>
+
+    <input type='submit' />
+</form>
+
+<script>
+    document.getElementById('update_playerAchievements_id').addEventListener('change', function(){
+        const selectedOption = this.options[this.selectedIndex];
+
+        const playerID = selectedOption.dataset.playerid;
+        const achievementID = selectedOption.dataset.achievementid;
+        const dateAchieved = selectedOption.dataset.dateachieved;
+
+        document.getElementById('update_playerAchievements_username').value = playerID;
+        document.getElementById('update_playerAchievements_achievementName').value = achievementID;
+        document.getElementById('update_playerAchievements_dateAchieved').value = dateAchieved;
+    });
+</script>
