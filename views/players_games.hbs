@@ -20,8 +20,8 @@
         {{#each playerGames}}
         <tr>
             <td>{{this.playerGameID}}</td>
-            <td>{{this.title}}</td>
             <td>{{this.username}}</td>
+            <td>{{this.title}}</td>
 
             {{! DELETE form }}
             <form id='delete_playerGame_form'>
@@ -37,3 +37,65 @@
         {{/each}}
     </tbody>
 </table>
+
+{{! CREATE form }}
+<h2>Add a Players Game</h2>
+<form class='cuForm' id='create_game_form'>
+    <label for='create_playerGames_username'>Username: </label>
+    <select name='create_playerGames_username' id='create_playerGames_username' required>
+        <option value='' disabled selected>Select a User</option>
+        {{#each playerGames}}
+        <option value='{{this.username}}' required>
+            {{this.username}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='create_playerGames_title'>Title: </label>
+    <select name='create_playerGames_title' id='create_playerGames_title' required>
+        <option value='' disabled selected>Select a Title</option>
+        {{#each playerGames}}
+        <option value='{{this.title}}' required>
+            {{this.title}}
+        </option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Players Game</h2>
+<form class='cuForm' id='update_game_form'>
+    <label for='update_playerGame_id'>Players Game ID to Update: </label>
+    <select name='update_playerGame_id' id='update_playerGame_id' required>
+        <option value='' disabled selected>Select a Players Game</option>
+        {{#each playerGames}}
+        <option value='{{this.playerGameID}}' required>
+            {{this.playerGameID}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_playerGame_username'>Username to Update: </label>
+    <select name='update_playerGame_username' id='update_playerGame_username' required>
+        <option value='' disabled selected>Select a Username</option>
+        {{#each playerGames}}
+        <option value='{{this.username}}' required>
+            {{this.username}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_playerGame_title'>Title to Update: </label>
+    <select name='update_playerGame_title' id='update_playerGame_title' required>
+        <option value='' disabled selected>Select a Title</option>
+        {{#each playerGames}}
+        <option value='{{this.title}}' required>
+            {{this.title}}
+        </option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>
