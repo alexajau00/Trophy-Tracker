@@ -113,14 +113,21 @@ app.get('/achievements', async function (req, res) {
 app.get('/players_games', async function (req, res) {
     try {
         // Create and execute our queries
-        const query1 = `SELECt playerGames.playerGameID, Players.username, Games.title\ 
+        const query1 = `SELECt playerGames.playerGameID, playerGames.playerID, playerGames.gameID, Players.username, Games.title\ 
         FROM playerGames JOIN Players On playerGames.playerID = Players.playerID \
         JOIN Games ON playerGames.gameID = Games.gameID;`;
+
+        const query2 = `SELECT playerID, username FROM Players;`
+
+        const query3 = `SELECT gameID, title FROM Games;`
+        
         const [playerGames] = await db.query(query1);
+        const [users] = await db.query(query2);
+        const [games] = await db.query(query3);
 
         // Render the player_games.hbs file, and also send the renderer
         //  an object that contains our player game information
-        res.render('players_games', { playerGames: playerGames });
+        res.render('players_games', { playerGames: playerGames, users, games });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser

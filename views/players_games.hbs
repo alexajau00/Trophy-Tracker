@@ -6,11 +6,9 @@
     <thead>
         {{! For the table header row, we print the DB attribute names }}
         <tr>
-            {{#each playerGames.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+                <th>Player Game ID</th>
+                <th>Username</th>
+                <th>Title</th>
             <th></th>
         </tr>
     </thead>
@@ -26,7 +24,6 @@
             {{! DELETE form }}
             <form id='delete_playerGame_form'>
                 <input type='hidden' name='delete_playerGame_ID' value='{{this.playerGameID}}' />
-                <input type='hidden' name='delete_playerGame_ID' value=' {{this.title}} - {{this.username}}' />
                 <td>
                     <button type='submit'>
                         Delete
@@ -44,8 +41,8 @@
     <label for='create_playerGames_username'>Username: </label>
     <select name='create_playerGames_username' id='create_playerGames_username' required>
         <option value='' disabled selected>Select a User</option>
-        {{#each playerGames}}
-        <option value='{{this.username}}' required>
+        {{#each users}}
+        <option value='{{this.playerID}}' required>
             {{this.username}}
         </option>
         {{/each}}
@@ -54,8 +51,8 @@
     <label for='create_playerGames_title'>Title: </label>
     <select name='create_playerGames_title' id='create_playerGames_title' required>
         <option value='' disabled selected>Select a Title</option>
-        {{#each playerGames}}
-        <option value='{{this.title}}' required>
+        {{#each games}}
+        <option value='{{this.gameID}}' required>
             {{this.title}}
         </option>
         {{/each}}
@@ -71,7 +68,9 @@
     <select name='update_playerGames_id' id='update_playerGames_id' required>
         <option value='' disabled selected>Select a Players Game</option>
         {{#each playerGames}}
-        <option value='{{this.playerGameID}}' required>
+        <option value='{{this.playerGameID}}'
+            data-playerid ='{{this.playerID}}'
+            data-gameid ='{{this.gameID}}' required>
             {{this.playerGameID}}
         </option>
         {{/each}}
@@ -80,8 +79,8 @@
     <label for='update_playerGames_username'>Username to Update: </label>
     <select name='update_playerGames_username' id='update_playerGames_username' required>
         <option value='' disabled selected>Select a Username</option>
-        {{#each playerGames}}
-        <option value='{{this.username}}' required>
+        {{#each users}}
+        <option value='{{this.playerID}}' required>
             {{this.username}}
         </option>
         {{/each}}
@@ -90,8 +89,8 @@
     <label for='update_playerGames_title'>Title to Update: </label>
     <select name='update_playerGames_title' id='update_playerGames_title' required>
         <option value='' disabled selected>Select a Title</option>
-        {{#each playerGames}}
-        <option value='{{this.title}}' required>
+        {{#each games}}
+        <option value='{{this.gameID}}' required>
             {{this.title}}
         </option>
         {{/each}}
@@ -99,3 +98,15 @@
 
     <input type='submit' />
 </form>
+
+<script>
+    document.getElementById('update_playerGames_id').addEventListener('change', function(){
+        const selectedOption = this.options[this.selectedIndex];
+
+        const playerID = selectedOption.dataset.playerid
+        const gameID = selectedOption.dataset.gameid
+
+        document.getElementById('update_playerGames_username').value = playerID;
+        document.getElementById('update_playerGames_title').value = gameID;
+    });
+</script>
