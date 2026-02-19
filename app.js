@@ -53,6 +53,24 @@ app.get('/players', async function (req, res) {
     }
 });
 
+app.post('/players/add', async function (req, res) {
+    try {
+        const username = req.body.create_player_username;
+        const email = req.body.create_player_email;
+
+        const query1 = `INSERT INTO Players (username, email) \
+        VALUES (?, ?);`;
+
+        await db.query(query1, [username, email]);
+
+        res.redirect('/players');
+    } catch (error) {
+        console.error('Error inserting player:', error);
+        res.status(500).send(
+            'Error inserting player.');
+    }
+});
+
 app.get('/games', async function (req, res) {
     try {
         // Create and execute our queries
