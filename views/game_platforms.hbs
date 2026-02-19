@@ -6,11 +6,9 @@
     <thead>
         {{! For the table header row, we print the DB attribute names }}
         <tr>
-            {{#each gamePlatforms.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>Game Platform ID</th>
+            <th>Title</th>
+            <th>Platform</th>
             <th></th>
         </tr>
     </thead>
@@ -37,3 +35,79 @@
         {{/each}}
     </tbody>
 </table>
+
+{{! CREATE form }}
+<h2>Add a Game Platform</h2>
+<form class='cuForm' id='create_gamePlatforms_form'>
+    <label for='create_gamePlatforms_tite'>Title: </label>
+    <select name='create_gamePlatforms_tite' id='create_gamePlatforms_tite' required>
+        <option value='' disabled selected>Select a Title</option>
+        {{#each games}}
+        <option value='{{this.gameID}}' required>
+            {{this.title}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='create_gamePlatforms_name'>Platform: </label>
+    <select name='create_gamePlatforms_name' id='create_gamePlatforms_name' required>
+        <option value='' disabled selected>Select a Platform</option>
+        {{#each platforms}}
+        <option value='{{this.platformID}}' required>
+            {{this.name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Players Game</h2>
+<form class='cuForm' id='update_gamePlatforms_form'>
+    <label for='update_gamePlatforms_id'>Game Platform ID to Update: </label>
+    <select name='update_gamePlatforms_id' id='update_gamePlatforms_id' required>
+        <option value='' disabled selected>Select a Game Platform</option>
+        {{#each gamePlatforms}}
+        <option value='{{this.gamePlatformID}}'
+            data-gameid ='{{this.gameID}}'
+            data-platformid ='{{this.platformID}}' required>
+            {{this.gamePlatformID}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_gamePlatforms_title'>Title to Update: </label>
+    <select name='update_gamePlatforms_title' id='update_gamePlatforms_title' required>
+        <option value='' disabled selected>Select a Title</option>
+        {{#each games}}
+        <option value='{{this.gameID}}' required>
+            {{this.title}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_gamePlatforms_name'>Platform to Update: </label>
+    <select name='update_gamePlatforms_name' id='update_gamePlatforms_name' required>
+        <option value='' disabled selected>Select a Platform</option>
+        {{#each platforms}}
+        <option value='{{this.plaformID}}' required>
+            {{this.name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>
+
+<script>
+    document.getElementById('update_gamePlatforms_id').addEventListener('change', function(){
+        const selectedOption = this.options[this.selectedIndex];
+
+        const gameID = selectedOption.dataset.gameid;
+        const platformID = selectedOption.dataset.platformid;
+
+        document.getElementById('update_gamePlatforms_title').value = gameID;
+        document.getElementById('update_gamePlatforms_name').value = platformID;
+    });
+</script>

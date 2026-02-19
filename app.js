@@ -167,14 +167,21 @@ app.get('/players_achievements', async function (req, res) {
 app.get('/game_platforms', async function (req, res) {
     try {
         // Create and execute our queries
-        const query1 = `SELECT gamePlatforms.gamePlatformID, Games.title, Platforms.name\ 
+        const query1 = `SELECT gamePlatforms.gamePlatformID, gamePlatforms.gameID, gamePlatforms.platformID, Games.title, Platforms.name\ 
         FROM gamePlatforms JOIN Games On gamePlatforms.gameID = Games.gameID\ 
         JOIN Platforms ON gamePlatforms.platformID = Platforms.platformID`;
+
+        const query2 = `SELECT gameID, title FROM Games;`
+
+        const query3 = `SELECT platformID, name FROM Platforms;`
+
         const [gamePlatforms] = await db.query(query1);
+        const [games] = await db.query(query2);
+        const [platforms] = await db.query(query3);
 
         // Render the game_platforms.hbs file, and also send the renderer
         //  an object that contains our game platform information
-        res.render('game_platforms', { gamePlatforms: gamePlatforms });
+        res.render('game_platforms', { gamePlatforms: gamePlatforms, games, platforms });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
