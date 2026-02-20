@@ -6,11 +6,12 @@
     <thead>
         {{! For the table header row, we print the DB attribute names }}
         <tr>
-            {{#each achievements.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>Achievement ID</th>
+            <th>Game Title</th>
+            <th>Platform Name</th>
+            <th>Achievement Name</th>
+            <th>Hidden</th>
+            <th>Rarity Percentage</th>
             <th></th>
         </tr>
     </thead>
@@ -56,7 +57,7 @@
     <label for='create_achievement_isHidden'>Hidden Achievement: </label>
     <input type='checkbox' name='create_achievement_isHidden' id='create_achievementisHidden' value='0'/>
 
-    <label for='create_achievement_rarityPercentage'>Achievement Rarity: </label>
+    <label for='create_achievement_rarityPercentage'>Rarity Percentage: </label>
     <input type='number' name='create_achievement_rarityPercentage' id='create_achievement_rarityPercentage' min='0' max='100' required />
 
     <input type='submit' />
@@ -91,7 +92,7 @@
     <label for='update_achievement_isHidden'>Hidden Achievement: </label>
     <input type='checkbox' name='update_achievement_isHidden' id='update_achievementisHidden' value='0'/>
 
-    <label for='update_achievement_rarityPercentage'>Achievement Rarity: </label>
+    <label for='update_achievement_rarityPercentage'>Rarity Percentage: </label>
     <input type='number' name='update_achievement_rarityPercentage' id='update_achievement_rarityPercentage' min='0' max='100' required />
     <input type='submit' />
 </form>
