@@ -22,9 +22,8 @@
             <td>{{this.name}}</td>
 
             {{! DELETE form }}
-            <form id='delete_gamePlaform_form'>
+            <form id='delete_gamePlaform_form' method="POST" action="/game_platforms/delete">
                 <input type='hidden' name='delete_gamePlatform_ID' value='{{this.gamePlatformID}}' />
-                <input type='hidden' name='delete_gamePlatform_ID' value=' {{this.title}} - {{this.name}}' />
                 <td>
                     <button type='submit'>
                         Delete
@@ -38,9 +37,9 @@
 
 {{! CREATE form }}
 <h2>Add a Game Platform</h2>
-<form class='cuForm' id='create_gamePlatforms_form'>
-    <label for='create_gamePlatforms_tite'>Title: </label>
-    <select name='create_gamePlatforms_tite' id='create_gamePlatforms_tite' required>
+<form class='cuForm' id='create_gamePlatforms_form' method="POST" action="/game_platforms/add">
+    <label for='create_gamePlatforms_title'>Title: </label>
+    <select name='create_gamePlatforms_title' id='create_gamePlatforms_title' required>
         <option value='' disabled selected>Select a Title</option>
         {{#each games}}
         <option value='{{this.gameID}}' required>
@@ -63,8 +62,8 @@
 </form>
 
 {{! UPDATE form }}
-<h2>Update a Players Game</h2>
-<form class='cuForm' id='update_gamePlatforms_form'>
+<h2>Update a Game Platform</h2>
+<form class='cuForm' id='update_gamePlatforms_form' method="POST" action="/game_platforms/update">
     <label for='update_gamePlatforms_id'>Game Platform ID to Update: </label>
     <select name='update_gamePlatforms_id' id='update_gamePlatforms_id' required>
         <option value='' disabled selected>Select a Game Platform</option>
@@ -91,7 +90,7 @@
     <select name='update_gamePlatforms_name' id='update_gamePlatforms_name' required>
         <option value='' disabled selected>Select a Platform</option>
         {{#each platforms}}
-        <option value='{{this.plaformID}}' required>
+        <option value='{{this.platformID}}' required>
             {{this.name}}
         </option>
         {{/each}}

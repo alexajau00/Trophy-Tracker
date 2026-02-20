@@ -481,6 +481,60 @@ app.get('/game_platforms', async function (req, res) {
     }
 });
 
+app.post('/game_platforms/add', async function (req, res) {
+    try {
+        const gameID = req.body.create_gamePlatforms_title;
+        const platformID = req.body.create_gamePlatforms_name;
+
+        const query1 = `INSERT INTO gamePlatforms (gameID, platformID) \
+        VALUES (?, ?);`;
+
+        await db.query(query1, [gameID, platformID]);
+
+        res.redirect('/game_platforms');
+    } catch (error) {
+        console.error('Error inserting game platforms:', error);
+        res.status(500).send(
+            'Error inserting game platforms.');
+    }
+});
+
+app.post('/game_platforms/delete', async function(req, res) {
+    try {
+        const gamePlatformID = req.body.delete_gamePlatform_ID;
+
+        const query1 = `DELETE FROM gamePlatforms WHERE gamePlatformID = ?;`;
+
+        await db.query(query1, [gamePlatformID]);
+        res.redirect('/game_platforms');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error deleting game platforms.'
+        );
+    }
+});
+
+app.post('/game_platforms/update', async function(req, res) {
+    try{
+        const gamePlatformID = req.body.update_gamePlatforms_id;
+        const gameID = req.body.update_gamePlatforms_title;
+        const platformID = req.body.update_gamePlatforms_name;
+
+        const query1 = `UPDATE gamePlatforms \
+        SET gameID = ?, platformID = ? \
+        WHERE gamePlatformID = ?;`;
+
+        await db.query(query1, [gameID, platformID, gamePlatformID]);
+        res.redirect('/game_platforms');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error updating game platforms.'
+        )
+    }
+});
+
 // ########################################
 // ########## LISTENER
 
