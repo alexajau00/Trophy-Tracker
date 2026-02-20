@@ -77,7 +77,7 @@ app.post('/players/delete', async function(req, res) {
 
         const query1 = `DELETE FROM Players WHERE playerID = ?;`;
 
-        db.pool.query(query1, [playerID]);
+        await db.query(query1, [playerID]);
 
         res.redirect('/players');
     } catch (error) {
@@ -98,14 +98,14 @@ app.post('/players/update', async function(req, res) {
         SET username = ?, email = ? \
         WHERE playerID = ?;`;
 
-        db.pool.query(query1, [username, email, playerID]);
+        await db.query(query1, [username, email, playerID]);
+        res.redirect('/players');
     } catch (error) {
         console.log(error);
         res.status(400).send(
             'Error updating player.'
         )
     }
-    res.redirect('/players');
 });
 
 app.get('/games', async function (req, res) {
@@ -210,20 +210,40 @@ app.post('/players_games/add', async function (req, res) {
     }
 });
 
-app.post('/players_games/delete', function(req, res) {
+app.post('/players_games/delete', async function(req, res) {
     try {
         const playerGameID = req.body.delete_playerGame_ID;
 
         const query1 = `DELETE FROM playerGames WHERE playerGameID = ?;`;
 
-        db.pool.query(query1, [playerGameID]);
+        await db.query(query1, [playerGameID]);
+        res.redirect('/players_games');
     } catch (error) {
         console.log(error);
         res.status(400).send(
             'Error deleting Players Games.'
         );
     }
-    res.redirect('/players_games');
+});
+
+app.post('/players_games/update', async function(req, res) {
+    try{
+        const playerGameID = req.body.update_playerGames_id;
+        const username = req.body.update_playerGames_username;
+        const title = req.body.update_playerGames_title;
+
+        const query1 = `UPDATE playerGames \
+        SET playerID = ?, gameID = ? \
+        WHERE playerGameID = ?;`;
+
+        await db.query(query1, [username, title, playerGameID]);
+        res.redirect('/players_games');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error updating player.'
+        )
+    }
 });
 
 app.get('/players_achievements', async function (req, res) {
