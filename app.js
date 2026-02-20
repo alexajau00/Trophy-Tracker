@@ -201,6 +201,24 @@ app.get('/platforms', async function (req, res) {
     }
 });
 
+app.post('/platforms/add', async function (req, res) {
+    try {
+        const name = req.body.create_platform_name;
+        const manufacturer = req.body.create_platform_manufacturer;
+
+        const query1 = `INSERT INTO Platforms (name, manufacturer) \
+        VALUES (?, ?);`;
+
+        await db.query(query1, [name, manufacturer]);
+
+        res.redirect('/platforms');
+    } catch (error) {
+        console.error('Error inserting platforms:', error);
+        res.status(500).send(
+            'Error inserting platforms.');
+    }
+});
+
 app.get('/achievements', async function (req, res) {
     try {
         // Create and execute our queries

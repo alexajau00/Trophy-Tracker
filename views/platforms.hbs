@@ -24,7 +24,6 @@
             {{! DELETE form }}
             <form id='delete_plaform_form'>
                 <input type='hidden' name='delete_platform_ID' value='{{this.platformID}}' />
-                <input type='hidden' name='delete_platform_ID' value='{{this.platformID}} {{this.name}}' />
                 <td>
                     <button type='submit'>
                         Delete
@@ -38,7 +37,7 @@
 
 {{! CREATE form }}
 <h2>Create a Platform</h2>
-<form class='cuForm' id='create_platform_form'>
+<form class='cuForm' id='create_platform_form' method="POST" action="/platforms/add">
     <label for='create_platform_name'>Platform Name: </label>
     <input type='text' name='create_platform_name' id='create_platform_name' required />
 
