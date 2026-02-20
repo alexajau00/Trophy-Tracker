@@ -24,9 +24,8 @@
             <td>{{this.releaseYear}}</td>
 
             {{! DELETE form }}
-            <form id='delete_game_form'>
+            <form id='delete_game_form' method="POST" action="/games/delete">
                 <input type='hidden' name='delete_game_ID' value='{{this.gameID}}' />
-                <input type='hidden' name='delete_game_ID' value='{{this.gameID}} {{this.title}}' />
                 <td>
                     <button type='submit'>
                         Delete

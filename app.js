@@ -145,6 +145,23 @@ app.post('/games/add', async function (req, res) {
     }
 });
 
+app.post('/games/delete', async function(req, res) {
+    try {
+        const gameID = req.body.delete_game_ID;
+
+        const query1 = `DELETE FROM Games WHERE gameID = ?;`;
+
+        await db.query(query1, [gameID]);
+
+        res.redirect('/games');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error deleting player.'
+        );
+    }
+});
+
 app.get('/platforms', async function (req, res) {
     try {
         // Create and execute our queries
