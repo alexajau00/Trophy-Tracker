@@ -28,9 +28,8 @@
             <td>{{this.rarityPercentage}}</td>
 
             {{! DELETE form }}
-            <form id='delete_achievement_form'>
+            <form id='delete_achievement_form' method="POST" action="/achievements/delete">
                 <input type='hidden' name='delete_achievement_ID' value='{{this.achievementID}}' />
-                <input type='hidden' name='delete_achievement_ID' value='{{this.achievementID}} {{this.achievementName}}' />
                 <td>
                     <button type='submit'>
                         Delete
@@ -44,12 +43,22 @@
 
 {{! CREATE form }}
 <h2>Create a Achievement</h2>
-<form class='cuForm' id='create_achievement_form'>
-    <label for='create_achievement_title'>Title: </label>
-    <input type='text' name='create_achievement_title' id='create_achievement_title' required />
+<form class='cuForm' id='create_achievement_form' method="POST" action="/achievements/add">
+    <label for='create_achievement_title'>Game Title: </label>
+    <select name='create_achievement_title' id='create_achievement_title' required>
+    <option value="" disabled selected>Select a Game</option>
+    {{#each games}}
+        <option value="{{this.gameID}}">{{this.title}}</option>
+    {{/each}}
+    </select>
 
-    <label for='create_achievement_name'>Name: </label>
-    <input type='text' name='create_achievement_name' id='create_achievement_name' required />
+    <label for='create_achievement_name'>Platform Name: </label>
+    <select name='create_achievement_name' id='create_achievement_name' required>
+    <option value="" disabled selected>Select a Platform</option>
+    {{#each platforms}}
+        <option value="{{this.platformID}}">{{this.name}}</option>
+    {{/each}}
+    </select>
 
     <label for='create_achievement_achievementName'>Achievement Name: </label>
     <input type='text' name='create_achievement_achievementName' id='create_achievement_achievementName' required />
@@ -58,41 +67,70 @@
     <input type='checkbox' name='create_achievement_isHidden' id='create_achievementisHidden' value='0'/>
 
     <label for='create_achievement_rarityPercentage'>Rarity Percentage: </label>
-    <input type='number' name='create_achievement_rarityPercentage' id='create_achievement_rarityPercentage' min='0' max='100' required />
+    <input type='number' name='create_achievement_rarityPercentage' id='create_achievement_rarityPercentage' min='0' max='100' step="0.01" required />
 
     <input type='submit' />
 </form>
 
 {{! UPDATE form }}
 <h2>Update a Achievement</h2>
-<form class='cuForm' id='update_achievement_form'>
+<form class='cuForm' id='update_achievement_form' method="POST" action="/achievements/update">
     <label for='update_achievement_id'>Achievement to Update: </label>
     <select name='update_achievement_id' id='update_achievement_id' required>
         <option value='' disabled selected>Select a Achievement</option>
         {{#each achievements}}
-        <option value='{{this.achievementID}}' required>
-            {{this.achievementID}}
-            -
-            {{this.achievementName}}
-            -
-            {{this.name}}
+        <option value='{{this.achievementID}}'
+            data-gameid="{{this.gameID}}"
+            data-platformid="{{this.platformID}}"
+            data-achievementname="{{this.achievementName}}"
+            data-ishidden="{{this.isHidden}}"
+            data-raritypercentage="{{this.rarityPercentage}}">
+            {{this.achievementID}} - {{this.achievementName}} - {{this.name}}
         </option>
         {{/each}}
     </select>
 
     <label for='update_achievement_title'>Title: </label>
-    <input type='text' name='update_achievement_title' id='update_achievement_title' required />
+    <select name='update_achievement_title' id='update_achievement_title' required >
+    <option value="" disabled selected>Select a Game</option>
+    {{#each games}}
+        <option value="{{this.gameID}}">{{this.title}}</option>
+    {{/each}}
+    </select>
 
     <label for='update_achievement_name'>Name: </label>
-    <input type='text' name='update_achievement_name' id='update_achievement_name' required />
+    <select name='update_achievement_name' id='update_achievement_name' required >
+    <option value="" disabled selected>Select a Platform</option>
+    {{#each platforms}}
+        <option value="{{this.platformID}}">{{this.name}}</option>
+    {{/each}}
+    </select>
 
     <label for='update_achievement_achievementName'>Achievement Name: </label>
     <input type='text' name='update_achievement_achievementName' id='update_achievement_achievementName' required />
 
     <label for='update_achievement_isHidden'>Hidden Achievement: </label>
-    <input type='checkbox' name='update_achievement_isHidden' id='update_achievementisHidden' value='0'/>
+    <input type='checkbox' name='update_achievement_isHidden' id='update_achievement_isHidden' value='1'/>
 
     <label for='update_achievement_rarityPercentage'>Rarity Percentage: </label>
-    <input type='number' name='update_achievement_rarityPercentage' id='update_achievement_rarityPercentage' min='0' max='100' required />
+    <input type='number' name='update_achievement_rarityPercentage' id='update_achievement_rarityPercentage' min='0' max='100' step="0.01" required />
     <input type='submit' />
 </form>
+
+<script>
+    document.getElementById('update_achievement_id').addEventListener('change', function(){
+    const selectedOption = this.options[this.selectedIndex];
+
+    const gameID = selectedOption.dataset.gameid;
+    const platformID = selectedOption.dataset.platformid;
+    const achievementName = selectedOption.dataset.achievementname;
+    const isHidden = selectedOption.dataset.ishidden;
+    const rarityPercentage = selectedOption.dataset.raritypercentage;
+
+    document.getElementById('update_achievement_title').value = gameID;
+    document.getElementById('update_achievement_name').value = platformID;
+    document.getElementById('update_achievement_achievementName').value = achievementName;
+    document.getElementById('update_achievement_isHidden').checked = (isHidden === "1");
+    document.getElementById('update_achievement_rarityPercentage').value = rarityPercentage;
+    });
+</script>

@@ -263,17 +263,86 @@ app.get('/achievements', async function (req, res) {
         Achievements.achievementName, Achievements.isHidden, Achievements.rarityPercentage \
         FROM Achievements JOIN Games ON Achievements.gameID = Games.gameID \
         JOIN Platforms ON Achievements.platformID = Platforms.platformID;`;
+
+        const query2 = `SELECT gameID, title FROM Games;`;
+
+        const query3 = `SELECT platformID, name FROM Platforms;`;
+
         const [achievements] = await db.query(query1);
+        const [games] = await db.query(query2);
+        const[platforms] = await db.query(query3);
 
         // Render the acheivements.hbs file, and also send the renderer
         //  an object that contains our acheivements information
-        res.render('achievements', { achievements: achievements });
+        res.render('achievements', { achievements: achievements, games, platforms });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
         res.status(500).send(
             'An error occurred while executing the database queries.'
         );
+    }
+});
+
+app.post('/achievements/add', async function (req, res) {
+    try {
+        const gameID = req.body.create_achievement_title;
+        const platformID = req.body.create_achievement_name;
+        const achievementName = req.body.create_achievement_achievementName;
+        const isHidden = req.body.create_achievement_isHidden ? 1: 0;
+        const rarityPercentage = req.body.create_achievement_rarityPercentage;
+
+
+        const query1 = `INSERT INTO Achievements (gameID, platformID, achievementName, isHidden, rarityPercentage) \
+        VALUES (?, ?, ?, ?, ?);`;
+
+        await db.query(query1, [gameID, platformID, achievementName, isHidden, rarityPercentage]);
+
+        res.redirect('/achievements');
+    } catch (error) {
+        console.error('Error inserting achievements:', error);
+        res.status(500).send(
+            'Error inserting achievements.');
+    }
+});
+
+app.post('/achievements/delete', async function(req, res) {
+    try {
+        const achievementID = req.body.delete_achievement_ID;
+
+        const query1 = `DELETE FROM Achievements WHERE achievementID = ?;`;
+
+        await db.query(query1, [achievementID]);
+
+        res.redirect('/achievements');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error deleting achievement.'
+        );
+    }
+});
+
+app.post('/achievements/update', async function(req, res) {
+    try{
+        const achievementID = req.body.update_achievement_id;
+        const gameID = req.body.update_achievement_title
+        const platformID = req.body.update_achievement_name;
+        const achievementName = req.body.update_achievement_achievementName;
+        const isHidden = req.body.update_achievement_isHidden ? 1: 0;
+        const rarityPercentage = req.body.update_achievement_rarityPercentage;
+
+        const query1 = `UPDATE Achievements \
+        SET gameID = ?, platformID = ?, achievementName = ?, isHidden = ?, rarityPercentage = ? \
+        WHERE achievementId = ?;`;
+
+        await db.query(query1, [gameID, platformID, achievementName, isHidden, rarityPercentage, achievementID]);
+        res.redirect('/achievements');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error updating achievements.'
+        )
     }
 });
 
