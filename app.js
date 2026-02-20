@@ -71,6 +71,43 @@ app.post('/players/add', async function (req, res) {
     }
 });
 
+app.post('/players/delete', async function(req, res) {
+    try {
+        const playerID = req.body.delete_player_ID;
+
+        const query1 = `DELETE FROM Players WHERE playerID = ?;`;
+
+        db.pool.query(query1, [playerID]);
+
+        res.redirect('/players');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error deleting player.'
+        );
+    }
+});
+
+app.post('/players/update', async function(req, res) {
+    try{
+        const playerID = req.body.update_player_id;
+        const username = req.body.update_player_username;
+        const email = req.body.update_player_email;
+
+        const query1 = `UPDATE Players \
+        SET username = ?, email = ? \
+        WHERE playerID = ?;`;
+
+        db.pool.query(query1, [username, email, playerID]);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error updating player.'
+        )
+    }
+    res.redirect('/players');
+});
+
 app.get('/games', async function (req, res) {
     try {
         // Create and execute our queries

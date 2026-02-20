@@ -22,9 +22,8 @@
             <td>{{this.email}}</td>
 
             {{! DELETE form }}
-            <form id='delete_player_form'>
+            <form id='delete_player_form' method="POST" action="/players/delete">
                 <input type='hidden' name='delete_player_ID' value='{{this.playerID}}' />
-                <input type='hidden' name='delete_player_ID' value='{{this.playerID}} {{this.username}}' />
                 <td>
                     <button type='submit'>
                         Delete
@@ -50,12 +49,12 @@
 
 {{! UPDATE form }}
 <h2>Update a Player</h2>
-<form class='cuForm' id='update_player_form'>
+<form class='cuForm' id='update_player_form' method="POST" action="/players/update">
     <label for='update_player_id'>Player to Update: </label>
-    <select name='update_player_id' id='update_person_id' required>
+    <select name='update_player_id' id='update_player_id' required>
         <option value='' disabled selected>Select a Player</option>
         {{#each players}}
-        <option value='{{this.id}}' required>
+        <option value='{{this.playerID}}' required>
             {{this.playerID}}
             -
             {{this.username}}
