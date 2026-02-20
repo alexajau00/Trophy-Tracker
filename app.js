@@ -454,6 +454,70 @@ app.get('/players_achievements', async function (req, res) {
     }
 });
 
+app.post('/players_achievements/add', async function (req, res) {
+    try {
+        const playerID = req.body.create_playerAchievements_username;
+        const achievementID = req.body.create_playerAchievements_achievementName;
+        const dateAchieved = req.body.create_playerAchievements_dateAchieved;
+
+        if (!dateAchieved || dateAchieved === ""){
+            dateAchieved = null;
+        }
+
+        const query1 = `INSERT INTO playerAchievements (playerID, achievementID, dateAchieved) \
+        VALUES (?, ?, ?);`;
+
+        await db.query(query1, [playerID, achievementID, dateAchieved]);
+
+        res.redirect('/players_achievements');
+    } catch (error) {
+        console.error('Error inserting players achievement:', error);
+        res.status(500).send(
+            'Error inserting players achievement.');
+    }
+});
+
+app.post('/players_achievements/delete', async function(req, res) {
+    try {
+        const playerAchievementID = req.body.delete_playerAchievement_ID;
+
+        const query1 = `DELETE FROM playerAchievements WHERE playerAchievementID = ?;`;
+
+        await db.query(query1, [playerAchievementID]);
+        res.redirect('/players_achievements');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error deleting Players achievements.'
+        );
+    }
+});
+
+app.post('/players_achievements/update', async function(req, res) {
+    try{
+        const playerAchievementID = req.body.update_playerAchievements_id;
+        const playerID = req.body.update_playerAchievements_username;
+        const achievementID = req.body.update_playerAchievements_achievementName;
+        let dateAchieved = req.body.update_playerAchievements_dateAchieved;
+
+        if (!dateAchieved || dateAchieved === ""){
+            dateAchieved = null;
+        }
+
+        const query1 = `UPDATE playerAchievements \
+        SET playerID = ?, achievementID = ?, dateAchieved = ? \
+        WHERE playerAchievementID = ?;`;
+
+        await db.query(query1, [playerID, achievementID, dateAchieved, playerAchievementID]);
+        res.redirect('/players_achievements');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error updating player.'
+        )
+    }
+});
+
 app.get('/game_platforms', async function (req, res) {
     try {
         // Create and execute our queries

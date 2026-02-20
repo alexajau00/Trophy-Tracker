@@ -24,9 +24,8 @@
             <td>{{this.dateAchieved}}</td>
 
             {{! DELETE form }}
-            <form id='delete_playerAchievement_form'>
-                <input type='hidden' name='delete_Achievement_ID' value='{{this.playerAchievementID}}' />
-                <input type='hidden' name='delete_Achievement_ID' value=' {{this.username}} - {{this.achievementName}}' />
+            <form id='delete_playerAchievement_form' method="POST" action="/players_achievements/delete">
+                <input type='hidden' name='delete_playerAchievement_ID' value='{{this.playerAchievementID}}' />
                 <td>
                     <button type='submit'>
                         Delete
@@ -40,7 +39,7 @@
 
 {{! CREATE form }}
 <h2>Add a Players Achievement</h2>
-<form class='cuForm' id='create_playerAchievements_form'>
+<form class='cuForm' id='create_playerAchievements_form' method="POST" action="/players_achievements/add">
     <label for='create_playerAchievements_username'>Username: </label>
     <select name='create_playerAchievements_username' id='create_playerAchievements_username' required>
         <option value='' disabled selected>Select a User</option>
@@ -69,15 +68,15 @@
 
 {{! UPDATE form }}
 <h2>Update a Players Achievements</h2>
-<form class='cuForm' id='update_playerAchievements_form'>
+<form class='cuForm' id='update_playerAchievements_form' method="POST" action="/players_achievements/update">
     <label for='update_playerAchievements_id'>Players Game ID to Update: </label>
     <select name='update_playerAchievements_id' id='update_playerAchievements_id' required>
         <option value='' disabled selected>Select a Players Achievement ID</option>
         {{#each playerAchievements}}
-        <option value='{{this.playerAchievementsID}}'
+        <option value='{{this.playerAchievementID}}'
             data-playerid ='{{this.playerID}}'
             data-achievementid='{{this.achievementID}}' 
-            data-date = '{{this.dateAchieved}}'required>
+            data-date = '{{this.dateAchieved}}' required>
             {{this.playerAchievementID}}
             </option>
         {{/each}}
