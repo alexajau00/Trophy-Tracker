@@ -22,7 +22,7 @@
             <td>{{this.title}}</td>
 
             {{! DELETE form }}
-            <form id='delete_playerGame_form'>
+            <form id='delete_playerGame_form' method="POST" action="/players_games/delete">
                 <input type='hidden' name='delete_playerGame_ID' value='{{this.playerGameID}}' />
                 <td>
                     <button type='submit'>

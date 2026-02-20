@@ -210,6 +210,22 @@ app.post('/players_games/add', async function (req, res) {
     }
 });
 
+app.post('/players_games/delete', function(req, res) {
+    try {
+        const playerGameID = req.body.delete_playerGame_ID;
+
+        const query1 = `DELETE FROM playerGames WHERE playerGameID = ?;`;
+
+        db.pool.query(query1, [playerGameID]);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error deleting Players Games.'
+        );
+    }
+    res.redirect('/players_games');
+});
+
 app.get('/players_achievements', async function (req, res) {
     try {
         // Create and execute our queries
