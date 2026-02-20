@@ -54,7 +54,7 @@
 
 {{! UPDATE form }}
 <h2>Update a Game</h2>
-<form class='cuForm' id='update_game_form'>
+<form class='cuForm' id='update_game_form' method="POST" action="/games/update">
     <label for='update_game_id'>Game to Update: </label>
     <select name='update_game_id' id='update_game_id' required>
         <option value='' disabled selected>Select a Game</option>
@@ -67,11 +67,14 @@
         {{/each}}
     </select>
 
-    <label for='update_platform_name'>Game Title: </label>
-    <input type='text' name='update_platform_name' id='update_platform_name' required>
+    <label for='update_game_title'>Game Title: </label>
+    <input type='text' name='update_game_title' id='update_game_title' required>
 
-    <label for='update_platform_manufacturer'>Game Developer: </label>
-    <input type='text' name='update_platform_manufacturer' id='update_platform_manufacturer' required />
+    <label for='update_game_manufacturer'>Game Developer: </label>
+    <input type='text' name='update_game_manufacturer' id='update_game_manufacturer' required />
+
+    <label for='update_game_releaseYear'>Release Year: </label>
+    <input type='number' name='update_game_releaseYear' id='update_game_releaseYear' required />
 
     <input type='submit' />
 </form>

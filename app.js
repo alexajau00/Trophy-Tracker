@@ -162,6 +162,27 @@ app.post('/games/delete', async function(req, res) {
     }
 });
 
+app.post('/games/update', async function(req, res) {
+    try{
+        const gameID = req.body.update_game_id;
+        const title = req.body.update_game_title;
+        const developer = req.body.update_game_manufacturer;
+        const releaseYear = req.body.update_game_releaseYear;
+
+        const query1 = `UPDATE Games \
+        SET title = ?, developer = ?, releaseYear = ?\
+        WHERE gameID = ?;`;
+
+        await db.query(query1, [title, developer, releaseYear, gameID]);
+        res.redirect('/games');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error updating games.'
+        )
+    }
+});
+
 app.get('/platforms', async function (req, res) {
     try {
         // Create and execute our queries
