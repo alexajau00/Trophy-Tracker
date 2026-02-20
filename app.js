@@ -192,6 +192,24 @@ app.get('/players_games', async function (req, res) {
     }
 });
 
+app.post('/players_games/add', async function (req, res) {
+    try {
+        const playerID = req.body.create_playerGames_username;
+        const gameID = req.body.create_playerGames_title;
+
+        const query1 = `INSERT INTO playerGames (playerID, gameID) \
+        VALUES (?, ?);`;
+
+        await db.query(query1, [playerID, gameID]);
+
+        res.redirect('/players_games');
+    } catch (error) {
+        console.error('Error inserting playerGames:', error);
+        res.status(500).send(
+            'Error inserting playerGames.');
+    }
+});
+
 app.get('/players_achievements', async function (req, res) {
     try {
         // Create and execute our queries

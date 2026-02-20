@@ -37,7 +37,7 @@
 
 {{! CREATE form }}
 <h2>Add a Players Game</h2>
-<form class='cuForm' id='create_playerGames_form'>
+<form class='cuForm' id='create_playerGames_form' method="POST" action="/players_games/add">
     <label for='create_playerGames_username'>Username: </label>
     <select name='create_playerGames_username' id='create_playerGames_username' required>
         <option value='' disabled selected>Select a User</option>
