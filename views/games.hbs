@@ -6,11 +6,10 @@
     <thead>
         {{! For the table header row, we print the DB attribute names }}
         <tr>
-            {{#each games.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>Game ID</th>
+            <th>Game Title</th>
+            <th>Game Developer</th>
+            <th>Release Year</th>
             <th></th>
         </tr>
     </thead>
@@ -42,10 +41,10 @@
 {{! CREATE form }}
 <h2>Create a Game</h2>
 <form class='cuForm' id='create_game_form'>
-    <label for='create_game_title'>Title: </label>
+    <label for='create_game_title'>Game Title: </label>
     <input type='text' name='create_game_title' id='create_game_title' required />
 
-    <label for='create_game_developer'>Developer: </label>
+    <label for='create_game_developer'>Game Developer: </label>
     <input type='text' name='create_game_developer' id='create_game_developer' required />
 
     <label for='create_game_releaseYear'>Release Year: </label>
@@ -69,10 +68,10 @@
         {{/each}}
     </select>
 
-    <label for='update_platform_name'>Title: </label>
+    <label for='update_platform_name'>Game Title: </label>
     <input type='text' name='update_platform_name' id='update_platform_name' required>
 
-    <label for='update_platform_manufacturer'>Developer: </label>
+    <label for='update_platform_manufacturer'>Game Developer: </label>
     <input type='text' name='update_platform_manufacturer' id='update_platform_manufacturer' required />
 
     <input type='submit' />
