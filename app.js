@@ -126,6 +126,25 @@ app.get('/games', async function (req, res) {
     }
 });
 
+app.post('/games/add', async function (req, res) {
+    try {
+        const title = req.body.create_game_title;
+        const developer = req.body.create_game_developer;
+        const releaseYear = req.body.create_game_releaseYear;
+
+        const query1 = `INSERT INTO Games (title, developer, releaseYear) \
+        VALUES (?, ?, ?);`;
+
+        await db.query(query1, [title, developer, releaseYear]);
+
+        res.redirect('/games');
+    } catch (error) {
+        console.error('Error inserting game:', error);
+        res.status(500).send(
+            'Error inserting game.');
+    }
+});
+
 app.get('/platforms', async function (req, res) {
     try {
         // Create and execute our queries

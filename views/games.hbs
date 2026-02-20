@@ -40,7 +40,7 @@
 
 {{! CREATE form }}
 <h2>Create a Game</h2>
-<form class='cuForm' id='create_game_form'>
+<form class='cuForm' id='create_game_form' method="POST" action="/games/add">
     <label for='create_game_title'>Game Title: </label>
     <input type='text' name='create_game_title' id='create_game_title' required />
 
