@@ -157,7 +157,7 @@ app.post('/games/delete', async function(req, res) {
     } catch (error) {
         console.log(error);
         res.status(400).send(
-            'Error deleting player.'
+            'Error deleting games.'
         );
     }
 });
@@ -216,6 +216,43 @@ app.post('/platforms/add', async function (req, res) {
         console.error('Error inserting platforms:', error);
         res.status(500).send(
             'Error inserting platforms.');
+    }
+});
+
+app.post('/platforms/delete', async function(req, res) {
+    try {
+        const platformID = req.body.delete_platform_ID;
+
+        const query1 = `DELETE FROM Platforms WHERE platformID = ?;`;
+
+        await db.query(query1, [platformID]);
+
+        res.redirect('/platforms');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error deleting platform.'
+        );
+    }
+});
+
+app.post('/platforms/update', async function(req, res) {
+    try{
+        const platformID = req.body.update_platform_id;
+        const name = req.body.update_platform_name;
+        const manufacturer = req.body.update_platform_manufacturer;
+
+        const query1 = `UPDATE Platforms \
+        SET name = ?, manufacturer = ? \
+        WHERE platformId = ?;`;
+
+        await db.query(query1, [name, manufacturer, platformID]);
+        res.redirect('/platforms');
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(
+            'Error updating platforms.'
+        )
     }
 });
 

@@ -22,7 +22,7 @@
             <td>{{this.manufacturer}}</td>
 
             {{! DELETE form }}
-            <form id='delete_plaform_form'>
+            <form id='delete_plaform_form' method="POST" action="/platforms/delete">
                 <input type='hidden' name='delete_platform_ID' value='{{this.platformID}}' />
                 <td>
                     <button type='submit'>
@@ -49,7 +49,7 @@
 
 {{! UPDATE form }}
 <h2>Update a Platform</h2>
-<form class='cuForm' id='update_platform_form'>
+<form class='cuForm' id='update_platform_form' method="POST" action="/platforms/update">
     <label for='update_platform_id'>Platform to Update: </label>
     <select name='update_platform_id' id='update_person_id' required>
         <option value='' disabled selected>Select a Platform</option>
