@@ -264,7 +264,7 @@ app.post('/platforms/update', async function(req, res) {
 
         const query1 = `UPDATE Platforms \
         SET name = ?, manufacturer = ? \
-        WHERE platformId = ?;`;
+        WHERE platformID = ?;`;
 
         await db.query(query1, [name, manufacturer, platformID]);
         res.redirect('/platforms');
@@ -369,7 +369,7 @@ app.post('/achievements/update', async function(req, res) {
 app.get('/players_games', async function (req, res) {
     try {
         // Create and execute our queries
-        const query1 = `SELECt playerGames.playerGameID, playerGames.playerID, playerGames.gameID, Players.username, Games.title\ 
+        const query1 = `SELECT playerGames.playerGameID, playerGames.playerID, playerGames.gameID, Players.username, Games.title\ 
         FROM playerGames JOIN Players On playerGames.playerID = Players.playerID \
         JOIN Games ON playerGames.gameID = Games.gameID;`;
 
@@ -478,7 +478,7 @@ app.post('/players_achievements/add', async function (req, res) {
     try {
         const playerID = req.body.create_playerAchievements_username;
         const achievementID = req.body.create_playerAchievements_achievementName;
-        const dateAchieved = req.body.create_playerAchievements_dateAchieved;
+        let dateAchieved = req.body.create_playerAchievements_dateAchieved;
 
         if (!dateAchieved || dateAchieved === ""){
             dateAchieved = null;
