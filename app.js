@@ -35,6 +35,26 @@ app.get('/', async function (req, res) {
     }
 });
 
+app.post('/reset', async function (req, res) {
+    try {
+        await db.query('CALL sp_reset_trophytracker();');
+        res.redirect('/');
+    } catch (error) {
+        console.error('Error resetting database:', error);
+        res.status(500).send('An error occurred while resetting the database.');
+    }
+});
+
+app.post('/demo-delete', async function (req, res) {
+    try {
+        await db.query('CALL sp_demo_delete_player();');
+        res.redirect('/players');
+    } catch (error) {
+        console.error('Error deleting player:', error);
+        res.status(500).send('An error occurred while deleting player the database.');
+    }
+});
+
 app.get('/players', async function (req, res) {
     try {
         // Create and execute our queries
