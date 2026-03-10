@@ -437,7 +437,7 @@ app.post('/players_games/update', async function(req, res) {
 app.get('/players_achievements', async function (req, res) {
     try {
         // Create and execute our queries
-        const query1 = `SELECT playerAchievements.playerAchievementID, playerAchievements.playerID, playerAchievements.achievementID, Players.username, Achievements.achievementName, playerAchievements.dateAchieved\ 
+        const query1 = `SELECT playerAchievements.playerAchievementID, playerAchievements.playerID, playerAchievements.achievementID, Players.username, Achievements.achievementName, DATE_FORMAT(playerAchievements.dateAchieved, '%Y-%m-%d') AS dateAchieved\ 
         FROM playerAchievements JOIN Players ON playerAchievements.playerID = Players.playerID\ 
         JOIN Achievements On playerAchievements.achievementID = Achievements.achievementID;`;
         
