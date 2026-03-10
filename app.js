@@ -78,8 +78,7 @@ app.post('/players/add', async function (req, res) {
         const username = req.body.create_player_username;
         const email = req.body.create_player_email;
 
-        const query1 = `INSERT INTO Players (username, email) \
-        VALUES (?, ?);`;
+        const query1 = `CALL sp_insert_player(?, ?);`;
 
         await db.query(query1, [username, email]);
 
@@ -95,7 +94,7 @@ app.post('/players/delete', async function(req, res) {
     try {
         const playerID = req.body.delete_player_ID;
 
-        const query1 = `DELETE FROM Players WHERE playerID = ?;`;
+        const query1 = `CALL sp_delete_player(playerID);`;
 
         await db.query(query1, [playerID]);
 
@@ -114,11 +113,9 @@ app.post('/players/update', async function(req, res) {
         const username = req.body.update_player_username;
         const email = req.body.update_player_email;
 
-        const query1 = `UPDATE Players \
-        SET username = ?, email = ? \
-        WHERE playerID = ?;`;
+        const query1 = `CALL sp_update_player(?, ?, ?);`;
 
-        await db.query(query1, [username, email, playerID]);
+        await db.query(query1, [playerID, username, email]);
         res.redirect('/players');
     } catch (error) {
         console.log(error);
