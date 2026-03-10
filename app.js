@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-const PORT = 52897;
+const PORT = 52887;
 
 // Database
 const db = require('./database/db-connector');
@@ -42,16 +42,6 @@ app.post('/reset', async function (req, res) {
     } catch (error) {
         console.error('Error resetting database:', error);
         res.status(500).send('An error occurred while resetting the database.');
-    }
-});
-
-app.post('/demo-delete', async function (req, res) {
-    try {
-        await db.query('CALL sp_demo_delete_player();');
-        res.redirect('/players');
-    } catch (error) {
-        console.error('Error deleting player:', error);
-        res.status(500).send('An error occurred while deleting player the database.');
     }
 });
 
