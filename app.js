@@ -84,7 +84,7 @@ app.post('/players/delete', async function(req, res) {
     try {
         const playerID = req.body.delete_player_ID;
 
-        const query1 = `CALL sp_delete_player(playerID);`;
+        const query1 = `CALL sp_delete_player(?);`;
 
         await db.query(query1, [playerID]);
 
