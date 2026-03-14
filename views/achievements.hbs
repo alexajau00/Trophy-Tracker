@@ -10,6 +10,7 @@
             <th>Game Title</th>
             <th>Platform Name</th>
             <th>Achievement Name</th>
+            <th>Description</th>
             <th>Hidden</th>
             <th>Rarity Percentage</th>
             <th></th>
@@ -24,6 +25,7 @@
             <td>{{this.title}}</td>
             <td>{{this.name}}</td>
             <td>{{this.achievementName}}</td>
+            <td>{{this.description}}</td>
             <td>{{this.isHidden}}</td>
             <td>{{this.rarityPercentage}}</td>
 
@@ -63,6 +65,9 @@
     <label for='create_achievement_achievementName'>Achievement Name: </label>
     <input type='text' name='create_achievement_achievementName' id='create_achievement_achievementName' required />
 
+    <label for='create_achievement_description'>Description: </label>
+    <textarea name='create_achievement_description' id='create_achievement_description' required></textarea>
+
     <label for='create_achievement_isHidden'>Hidden Achievement: </label>
     <input type='checkbox' name='create_achievement_isHidden' id='create_achievementisHidden' value='0'/>
 
@@ -83,6 +88,7 @@
             data-gameid="{{this.gameID}}"
             data-platformid="{{this.platformID}}"
             data-achievementname="{{this.achievementName}}"
+            data-description="{{this.description}}"
             data-ishidden="{{this.isHidden}}"
             data-raritypercentage="{{this.rarityPercentage}}">
             {{this.achievementID}} - {{this.achievementName}} - {{this.name}}
@@ -109,6 +115,9 @@
     <label for='update_achievement_achievementName'>Achievement Name: </label>
     <input type='text' name='update_achievement_achievementName' id='update_achievement_achievementName' required />
 
+    <label for='update_achievement_description'>Description: </label>
+    <textarea name='update_achievement_description' id='update_achievement_description' required></textarea>
+
     <label for='update_achievement_isHidden'>Hidden Achievement: </label>
     <input type='checkbox' name='update_achievement_isHidden' id='update_achievement_isHidden' value='1'/>
 
@@ -124,12 +133,14 @@
     const gameID = selectedOption.dataset.gameid;
     const platformID = selectedOption.dataset.platformid;
     const achievementName = selectedOption.dataset.achievementname;
+    const description = selectedOption.dataset.description;
     const isHidden = selectedOption.dataset.ishidden;
     const rarityPercentage = selectedOption.dataset.raritypercentage;
 
     document.getElementById('update_achievement_title').value = gameID;
     document.getElementById('update_achievement_name').value = platformID;
     document.getElementById('update_achievement_achievementName').value = achievementName;
+    document.getElementById('update_achievement_description').value = description;
     document.getElementById('update_achievement_isHidden').checked = (isHidden === "1");
     document.getElementById('update_achievement_rarityPercentage').value = rarityPercentage;
     });
