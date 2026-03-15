@@ -59,7 +59,7 @@
     <select name='update_game_id' id='update_game_id' required>
         <option value='' disabled selected>Select a Game</option>
         {{#each games}}
-        <option value='{{this.gameID}}' required>
+        <option value='{{this.gameID}}' data-title='{{this.title}}' data-developer='{{this.developer}}' data-releaseyear='{{this.releaseYear}}'>
             {{this.gameID}}
             -
             {{this.title}}
@@ -78,3 +78,11 @@
 
     <input type='submit' />
 </form>
+<script>
+    document.getElementById('update_game_id').addEventListener('change', function(){
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById('update_game_title').value = selectedOption.dataset.title;
+        document.getElementById('update_game_manufacturer').value = selectedOption.dataset.developer;
+        document.getElementById('update_game_releaseYear').value = selectedOption.dataset.releaseyear;
+    });
+</script>

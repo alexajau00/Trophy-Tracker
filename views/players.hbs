@@ -54,7 +54,7 @@
     <select name='update_player_id' id='update_player_id' required>
         <option value='' disabled selected>Select a Player</option>
         {{#each players}}
-        <option value='{{this.playerID}}' required>
+        <option value='{{this.playerID}}' data-username='{{this.username}}' data-email='{{this.email}}'>
             {{this.playerID}}
             -
             {{this.username}}
@@ -70,3 +70,10 @@
 
     <input type='submit' />
 </form>
+<script>
+    document.getElementById('update_player_id').addEventListener('change', function(){
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById('update_player_username').value = selectedOption.dataset.username;
+        document.getElementById('update_player_email').value = selectedOption.dataset.email;
+    });
+</script>

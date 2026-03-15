@@ -74,9 +74,9 @@
         <option value='' disabled selected>Select a Players Achievement ID</option>
         {{#each playerAchievements}}
         <option value='{{this.playerAchievementID}}'
-            data-playerid ='{{this.playerID}}'
-            data-achievementid='{{this.achievementID}}' 
-            data-date = '{{this.dateAchieved}}' required>
+            data-playerid='{{this.playerID}}'
+            data-achievementid='{{this.achievementID}}'
+            data-dateachieved='{{this.dateAchieved}}' required>
             {{this.playerAchievementID}}
             </option>
         {{/each}}
