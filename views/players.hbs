@@ -1,5 +1,6 @@
 {{! Adapted from CS 340 bsg_people example web application}}
 <h1>Players</h1>
+<p class='homepageDescription'>Manage player accounts.</p>
 
 {{! READ table }}
 <table>
@@ -35,6 +36,10 @@
     </tbody>
 </table>
 
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
+
 {{! CREATE form }}
 <h2>Create a Player</h2>
 <form class='cuForm' id='create_player_form' method="POST" action="/players/add">
@@ -42,7 +47,7 @@
     <input type='text' name='create_player_username' id='create_player_username' required />
 
     <label for='create_player_email'>Email: </label>
-    <input type='text' name='create_player_email' id='create_player_email' />
+    <input type='email' name='create_player_email' id='create_player_email' />
 
     <input type='submit' />
 </form>
@@ -54,7 +59,7 @@
     <select name='update_player_id' id='update_player_id' required>
         <option value='' disabled selected>Select a Player</option>
         {{#each players}}
-        <option value='{{this.playerID}}' required>
+        <option value='{{this.playerID}}' data-username='{{this.username}}' data-email='{{this.email}}'>
             {{this.playerID}}
             -
             {{this.username}}
@@ -66,7 +71,14 @@
     <input type='text' name='update_player_username' id='update_player_username' required>
 
     <label for='update_player_email'>Email: </label>
-    <input type='text' name='update_player_email' id='update_player_email' required />
+    <input type='email' name='update_player_email' id='update_player_email' required />
 
     <input type='submit' />
 </form>
+<script>
+    document.getElementById('update_player_id').addEventListener('change', function(){
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById('update_player_username').value = selectedOption.dataset.username;
+        document.getElementById('update_player_email').value = selectedOption.dataset.email;
+    });
+</script>

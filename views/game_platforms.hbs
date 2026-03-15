@@ -1,5 +1,6 @@
 {{! Adapted from CS 340 bsg_people example web application}}
 <h1>Game Platforms</h1>
+<p class='homepageDescription'>Track which platforms each game is available on.</p>
 
 {{! READ table }}
 <table>
@@ -34,6 +35,10 @@
         {{/each}}
     </tbody>
 </table>
+
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
 
 {{! CREATE form }}
 <h2>Add a Game Platform</h2>
@@ -76,7 +81,7 @@
         {{/each}}
     </select>
 
-    <label for='update_gamePlatforms_title'>Title to Update: </label>
+    <label for='update_gamePlatforms_title'>Title: </label>
     <select name='update_gamePlatforms_title' id='update_gamePlatforms_title' required>
         <option value='' disabled selected>Select a Title</option>
         {{#each games}}
@@ -86,7 +91,7 @@
         {{/each}}
     </select>
 
-    <label for='update_gamePlatforms_name'>Platform to Update: </label>
+    <label for='update_gamePlatforms_name'>Platform: </label>
     <select name='update_gamePlatforms_name' id='update_gamePlatforms_name' required>
         <option value='' disabled selected>Select a Platform</option>
         {{#each platforms}}

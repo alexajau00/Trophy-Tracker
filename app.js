@@ -53,7 +53,7 @@ app.get('/players', async function (req, res) {
 
         // Render the players.hbs file, and also send the renderer
         //  an object that contains our players information
-        res.render('players', { players: players });
+        res.render('players', { players: players, error: req.query.error});
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -75,8 +75,9 @@ app.post('/players/add', async function (req, res) {
         res.redirect('/players');
     } catch (error) {
         console.error('Error inserting player:', error);
-        res.status(500).send(
-            'Error inserting player.');
+        res.redirect('/players?error=ERROR: Could not add player. Username or email may already exist.');
+        // res.status(500).send(
+        //     'Error inserting player.');
     }
 });
 
@@ -109,9 +110,10 @@ app.post('/players/update', async function(req, res) {
         res.redirect('/players');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating player.'
-        )
+        res.redirect('/players?error=ERROR: Could not update player. Username or email may already exist.');
+        // res.status(400).send(
+        //     'Error updating player.'
+        // )
     }
 });
 
@@ -123,7 +125,7 @@ app.get('/games', async function (req, res) {
 
         // Render the games.hbs file, and also send the renderer
         //  an object that contains our games information
-        res.render('games', { games: games });
+        res.render('games', { games: games, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -139,16 +141,14 @@ app.post('/games/add', async function (req, res) {
         const developer = req.body.create_game_developer;
         const releaseYear = req.body.create_game_releaseYear;
 
-        const query1 = `INSERT INTO Games (title, developer, releaseYear) \
-        VALUES (?, ?, ?);`;
+        const query1 = `CALL sp_insert_game(?, ?, ?);`;
 
         await db.query(query1, [title, developer, releaseYear]);
 
         res.redirect('/games');
     } catch (error) {
         console.error('Error inserting game:', error);
-        res.status(500).send(
-            'Error inserting game.');
+        res.redirect('/games?error=Could not add game. A game with that title may already exist.');
     }
 });
 
@@ -156,7 +156,7 @@ app.post('/games/delete', async function(req, res) {
     try {
         const gameID = req.body.delete_game_ID;
 
-        const query1 = `DELETE FROM Games WHERE gameID = ?;`;
+        const query1 = `CALL sp_delete_game(?);`;
 
         await db.query(query1, [gameID]);
 
@@ -176,17 +176,13 @@ app.post('/games/update', async function(req, res) {
         const developer = req.body.update_game_manufacturer;
         const releaseYear = req.body.update_game_releaseYear;
 
-        const query1 = `UPDATE Games \
-        SET title = ?, developer = ?, releaseYear = ?\
-        WHERE gameID = ?;`;
+        const query1 = `CALL sp_update_game(?, ?, ?, ?);`;
 
-        await db.query(query1, [title, developer, releaseYear, gameID]);
+        await db.query(query1, [gameID, title, developer, releaseYear]);
         res.redirect('/games');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating games.'
-        )
+        res.redirect('/games?error=Could not update game. A game with that title may already exist.');
     }
 });
 
@@ -198,7 +194,7 @@ app.get('/platforms', async function (req, res) {
 
         // Render the platforms.hbs file, and also send the renderer
         //  an object that contains our platforms information
-        res.render('platforms', { platforms: platforms });
+        res.render('platforms', { platforms: platforms, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -213,16 +209,14 @@ app.post('/platforms/add', async function (req, res) {
         const name = req.body.create_platform_name;
         const manufacturer = req.body.create_platform_manufacturer;
 
-        const query1 = `INSERT INTO Platforms (name, manufacturer) \
-        VALUES (?, ?);`;
+        const query1 = `CALL sp_insert_platform(?, ?);`;
 
         await db.query(query1, [name, manufacturer]);
 
         res.redirect('/platforms');
     } catch (error) {
         console.error('Error inserting platforms:', error);
-        res.status(500).send(
-            'Error inserting platforms.');
+        res.redirect('/platforms?error=Could not add platform. A platform with that name may already exist.');
     }
 });
 
@@ -230,7 +224,7 @@ app.post('/platforms/delete', async function(req, res) {
     try {
         const platformID = req.body.delete_platform_ID;
 
-        const query1 = `DELETE FROM Platforms WHERE platformID = ?;`;
+        const query1 = `CALL sp_delete_platform(?);`;
 
         await db.query(query1, [platformID]);
 
@@ -249,25 +243,21 @@ app.post('/platforms/update', async function(req, res) {
         const name = req.body.update_platform_name;
         const manufacturer = req.body.update_platform_manufacturer;
 
-        const query1 = `UPDATE Platforms \
-        SET name = ?, manufacturer = ? \
-        WHERE platformID = ?;`;
+        const query1 = `CALL sp_update_platform(?, ?, ?);`;
 
-        await db.query(query1, [name, manufacturer, platformID]);
+        await db.query(query1, [platformID, name, manufacturer]);
         res.redirect('/platforms');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating platforms.'
-        )
+        res.redirect('/platforms?error=Could not update platform. A platform with that name may already exist.');
     }
 });
 
 app.get('/achievements', async function (req, res) {
     try {
         // Create and execute our queries
-        const query1 = `SELECT Achievements.achievementID, Games.title, Platforms.name, \
-        Achievements.achievementName, Achievements.isHidden, Achievements.rarityPercentage \
+        const query1 = `SELECT Achievements.achievementID, Achievements.gameID, Achievements.platformID, Games.title, Platforms.name, \
+        Achievements.achievementName, Achievements.description, Achievements.isHidden, Achievements.rarityPercentage \
         FROM Achievements JOIN Games ON Achievements.gameID = Games.gameID \
         JOIN Platforms ON Achievements.platformID = Platforms.platformID;`;
 
@@ -281,7 +271,7 @@ app.get('/achievements', async function (req, res) {
 
         // Render the acheivements.hbs file, and also send the renderer
         //  an object that contains our acheivements information
-        res.render('achievements', { achievements: achievements, games, platforms });
+        res.render('achievements', { achievements: achievements, games, platforms, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -296,20 +286,19 @@ app.post('/achievements/add', async function (req, res) {
         const gameID = req.body.create_achievement_title;
         const platformID = req.body.create_achievement_name;
         const achievementName = req.body.create_achievement_achievementName;
-        const isHidden = req.body.create_achievement_isHidden ? 1: 0;
-        const rarityPercentage = req.body.create_achievement_rarityPercentage;
+        const description = req.body.create_achievement_description;
+        const isHidden = req.body.create_achievement_isHidden;
+        let rarityPercentage = req.body.create_achievement_rarityPercentage;
+        if (!rarityPercentage || rarityPercentage === "") rarityPercentage = null;
 
+        const query1 = `CALL sp_insert_achievement(?, ?, ?, ?, ?, ?);`;
 
-        const query1 = `INSERT INTO Achievements (gameID, platformID, achievementName, isHidden, rarityPercentage) \
-        VALUES (?, ?, ?, ?, ?);`;
-
-        await db.query(query1, [gameID, platformID, achievementName, isHidden, rarityPercentage]);
+        await db.query(query1, [gameID, platformID, achievementName, description, isHidden, rarityPercentage]);
 
         res.redirect('/achievements');
     } catch (error) {
         console.error('Error inserting achievements:', error);
-        res.status(500).send(
-            'Error inserting achievements.');
+        res.redirect('/achievements?error=Could not add achievement. Please check your inputs and try again.');
     }
 });
 
@@ -317,7 +306,7 @@ app.post('/achievements/delete', async function(req, res) {
     try {
         const achievementID = req.body.delete_achievement_ID;
 
-        const query1 = `DELETE FROM Achievements WHERE achievementID = ?;`;
+        const query1 = `CALL sp_delete_achievement(?);`;
 
         await db.query(query1, [achievementID]);
 
@@ -333,23 +322,21 @@ app.post('/achievements/delete', async function(req, res) {
 app.post('/achievements/update', async function(req, res) {
     try{
         const achievementID = req.body.update_achievement_id;
-        const gameID = req.body.update_achievement_title
+        const gameID = req.body.update_achievement_title;
         const platformID = req.body.update_achievement_name;
         const achievementName = req.body.update_achievement_achievementName;
-        const isHidden = req.body.update_achievement_isHidden ? 1: 0;
-        const rarityPercentage = req.body.update_achievement_rarityPercentage;
+        const description = req.body.update_achievement_description;
+        const isHidden = req.body.update_achievement_isHidden;
+        let rarityPercentage = req.body.update_achievement_rarityPercentage;
+        if (!rarityPercentage || rarityPercentage === "") rarityPercentage = null;
 
-        const query1 = `UPDATE Achievements \
-        SET gameID = ?, platformID = ?, achievementName = ?, isHidden = ?, rarityPercentage = ? \
-        WHERE achievementId = ?;`;
+        const query1 = `CALL sp_update_achievement(?, ?, ?, ?, ?, ?, ?);`;
 
-        await db.query(query1, [gameID, platformID, achievementName, isHidden, rarityPercentage, achievementID]);
+        await db.query(query1, [achievementID, gameID, platformID, achievementName, description, isHidden, rarityPercentage]);
         res.redirect('/achievements');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating achievements.'
-        )
+        res.redirect('/achievements?error=Could not update achievement. Please check your inputs and try again.');
     }
 });
 
@@ -370,7 +357,7 @@ app.get('/players_games', async function (req, res) {
 
         // Render the player_games.hbs file, and also send the renderer
         //  an object that contains our player game information
-        res.render('players_games', { playerGames: playerGames, users, games });
+        res.render('players_games', { playerGames: playerGames, users, games, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -385,16 +372,14 @@ app.post('/players_games/add', async function (req, res) {
         const playerID = req.body.create_playerGames_username;
         const gameID = req.body.create_playerGames_title;
 
-        const query1 = `INSERT INTO playerGames (playerID, gameID) \
-        VALUES (?, ?);`;
+        const query1 = `CALL sp_insert_playerGame(?, ?);`;
 
         await db.query(query1, [playerID, gameID]);
 
         res.redirect('/players_games');
     } catch (error) {
         console.error('Error inserting playerGames:', error);
-        res.status(500).send(
-            'Error inserting playerGames.');
+        res.redirect('/players_games?error=Could not add entry. That player may already have this game.');
     }
 });
 
@@ -402,7 +387,7 @@ app.post('/players_games/delete', async function(req, res) {
     try {
         const playerGameID = req.body.delete_playerGame_ID;
 
-        const query1 = `DELETE FROM playerGames WHERE playerGameID = ?;`;
+        const query1 = `CALL sp_delete_playerGame(?);`;
 
         await db.query(query1, [playerGameID]);
         res.redirect('/players_games');
@@ -420,17 +405,13 @@ app.post('/players_games/update', async function(req, res) {
         const username = req.body.update_playerGames_username;
         const title = req.body.update_playerGames_title;
 
-        const query1 = `UPDATE playerGames \
-        SET playerID = ?, gameID = ? \
-        WHERE playerGameID = ?;`;
+        const query1 = `CALL sp_update_playerGame(?, ?, ?);`;
 
-        await db.query(query1, [username, title, playerGameID]);
+        await db.query(query1, [playerGameID, username, title]);
         res.redirect('/players_games');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating player.'
-        )
+        res.redirect('/players_games?error=Could not update entry. That player may already have this game.');
     }
 });
 
@@ -451,7 +432,7 @@ app.get('/players_achievements', async function (req, res) {
 
         // Render the acheivements.hbs file, and also send the renderer
         //  an object that contains our player acheivements information
-        res.render('players_achievements', { playerAchievements: playerAchievements, players, achievements });
+        res.render('players_achievements', { playerAchievements: playerAchievements, players, achievements, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -471,16 +452,14 @@ app.post('/players_achievements/add', async function (req, res) {
             dateAchieved = null;
         }
 
-        const query1 = `INSERT INTO playerAchievements (playerID, achievementID, dateAchieved) \
-        VALUES (?, ?, ?);`;
+        const query1 = `CALL sp_insert_playerAchievement(?, ?, ?);`;
 
         await db.query(query1, [playerID, achievementID, dateAchieved]);
 
         res.redirect('/players_achievements');
     } catch (error) {
         console.error('Error inserting players achievement:', error);
-        res.status(500).send(
-            'Error inserting players achievement.');
+        res.redirect('/players_achievements?error=Could not add entry. That player may already have this achievement.');
     }
 });
 
@@ -488,7 +467,7 @@ app.post('/players_achievements/delete', async function(req, res) {
     try {
         const playerAchievementID = req.body.delete_playerAchievement_ID;
 
-        const query1 = `DELETE FROM playerAchievements WHERE playerAchievementID = ?;`;
+        const query1 = `CALL sp_delete_playerAchievement(?);`;
 
         await db.query(query1, [playerAchievementID]);
         res.redirect('/players_achievements');
@@ -511,17 +490,13 @@ app.post('/players_achievements/update', async function(req, res) {
             dateAchieved = null;
         }
 
-        const query1 = `UPDATE playerAchievements \
-        SET playerID = ?, achievementID = ?, dateAchieved = ? \
-        WHERE playerAchievementID = ?;`;
+        const query1 = `CALL sp_update_playerAchievement(?, ?, ?, ?);`;
 
-        await db.query(query1, [playerID, achievementID, dateAchieved, playerAchievementID]);
+        await db.query(query1, [playerAchievementID, playerID, achievementID, dateAchieved]);
         res.redirect('/players_achievements');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating player.'
-        )
+        res.redirect('/players_achievements?error=Could not update entry. That player may already have this achievement.');
     }
 });
 
@@ -542,7 +517,7 @@ app.get('/game_platforms', async function (req, res) {
 
         // Render the game_platforms.hbs file, and also send the renderer
         //  an object that contains our game platform information
-        res.render('game_platforms', { gamePlatforms: gamePlatforms, games, platforms });
+        res.render('game_platforms', { gamePlatforms: gamePlatforms, games, platforms, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -557,16 +532,14 @@ app.post('/game_platforms/add', async function (req, res) {
         const gameID = req.body.create_gamePlatforms_title;
         const platformID = req.body.create_gamePlatforms_name;
 
-        const query1 = `INSERT INTO gamePlatforms (gameID, platformID) \
-        VALUES (?, ?);`;
+        const query1 = `CALL sp_insert_gamePlatform(?, ?);`;
 
         await db.query(query1, [gameID, platformID]);
 
         res.redirect('/game_platforms');
     } catch (error) {
         console.error('Error inserting game platforms:', error);
-        res.status(500).send(
-            'Error inserting game platforms.');
+        res.redirect('/game_platforms?error=Could not add entry. That game and platform combination may already exist.');
     }
 });
 
@@ -574,7 +547,7 @@ app.post('/game_platforms/delete', async function(req, res) {
     try {
         const gamePlatformID = req.body.delete_gamePlatform_ID;
 
-        const query1 = `DELETE FROM gamePlatforms WHERE gamePlatformID = ?;`;
+        const query1 = `CALL sp_delete_gamePlatform(?);`;
 
         await db.query(query1, [gamePlatformID]);
         res.redirect('/game_platforms');
@@ -592,17 +565,13 @@ app.post('/game_platforms/update', async function(req, res) {
         const gameID = req.body.update_gamePlatforms_title;
         const platformID = req.body.update_gamePlatforms_name;
 
-        const query1 = `UPDATE gamePlatforms \
-        SET gameID = ?, platformID = ? \
-        WHERE gamePlatformID = ?;`;
+        const query1 = `CALL sp_update_gamePlatform(?, ?, ?);`;
 
-        await db.query(query1, [gameID, platformID, gamePlatformID]);
+        await db.query(query1, [gamePlatformID, gameID, platformID]);
         res.redirect('/game_platforms');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating game platforms.'
-        )
+        res.redirect('/game_platforms?error=Could not update entry. That game and platform combination may already exist.');
     }
 });
 

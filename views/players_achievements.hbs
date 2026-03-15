@@ -1,5 +1,6 @@
 {{! Adapted from CS 340 bsg_people example web application}}
 <h1>Players Achievements</h1>
+<p class='homepageDescription'>Track which achievements each player has earned.</p>
 
 {{! READ table }}
 <table>
@@ -36,6 +37,10 @@
         {{/each}}
     </tbody>
 </table>
+
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
 
 {{! CREATE form }}
 <h2>Add a Players Achievement</h2>
@@ -74,15 +79,15 @@
         <option value='' disabled selected>Select a Players Achievement ID</option>
         {{#each playerAchievements}}
         <option value='{{this.playerAchievementID}}'
-            data-playerid ='{{this.playerID}}'
-            data-achievementid='{{this.achievementID}}' 
-            data-date = '{{this.dateAchieved}}' required>
+            data-playerid='{{this.playerID}}'
+            data-achievementid='{{this.achievementID}}'
+            data-dateachieved='{{this.dateAchieved}}' required>
             {{this.playerAchievementID}}
             </option>
         {{/each}}
     </select>
 
-    <label for='update_playerAchievements_username'>Username to Update: </label>
+    <label for='update_playerAchievements_username'>Username: </label>
     <select name='update_playerAchievements_username' id='update_playerAchievements_username' required>
         <option value='' disabled selected>Select a Username</option>
         {{#each players}}
@@ -92,7 +97,7 @@
         {{/each}}
     </select>
 
-    <label for='update_playerAchievements_achievementName'>Achievement to Update: </label>
+    <label for='update_playerAchievements_achievementName'>Achievement Name: </label>
     <select name='update_playerAchievements_achievementName' id='update_playerAchievements_achievementName' required>
         <option value='' disabled selected>Select a Achievement</option>
         {{#each achievements}}

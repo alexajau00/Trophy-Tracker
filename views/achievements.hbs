@@ -1,5 +1,6 @@
 {{! Adapted from CS 340 bsg_people example web application}}
 <h1>Achievements</h1>
+<p class='homepageDescription'>Manage achievements associated with games and platforms.</p>
 
 {{! READ table }}
 <table>
@@ -10,6 +11,7 @@
             <th>Game Title</th>
             <th>Platform Name</th>
             <th>Achievement Name</th>
+            <th>Description</th>
             <th>Hidden</th>
             <th>Rarity Percentage</th>
             <th></th>
@@ -24,6 +26,7 @@
             <td>{{this.title}}</td>
             <td>{{this.name}}</td>
             <td>{{this.achievementName}}</td>
+            <td>{{this.description}}</td>
             <td>{{this.isHidden}}</td>
             <td>{{this.rarityPercentage}}</td>
 
@@ -40,6 +43,10 @@
         {{/each}}
     </tbody>
 </table>
+
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
 
 {{! CREATE form }}
 <h2>Create a Achievement</h2>
@@ -63,11 +70,17 @@
     <label for='create_achievement_achievementName'>Achievement Name: </label>
     <input type='text' name='create_achievement_achievementName' id='create_achievement_achievementName' required />
 
+    <label for='create_achievement_description'>Description: </label>
+    <textarea name='create_achievement_description' id='create_achievement_description' required></textarea>
+
     <label for='create_achievement_isHidden'>Hidden Achievement: </label>
-    <input type='checkbox' name='create_achievement_isHidden' id='create_achievementisHidden' value='0'/>
+    <select name='create_achievement_isHidden' id='create_achievement_isHidden' required>
+        <option value='0'>No</option>
+        <option value='1'>Yes</option>
+    </select>
 
     <label for='create_achievement_rarityPercentage'>Rarity Percentage: </label>
-    <input type='number' name='create_achievement_rarityPercentage' id='create_achievement_rarityPercentage' min='0' max='100' step="0.01" required />
+    <input type='number' name='create_achievement_rarityPercentage' id='create_achievement_rarityPercentage' min='0' max='100' step="0.01"/>
 
     <input type='submit' />
 </form>
@@ -83,6 +96,7 @@
             data-gameid="{{this.gameID}}"
             data-platformid="{{this.platformID}}"
             data-achievementname="{{this.achievementName}}"
+            data-description="{{this.description}}"
             data-ishidden="{{this.isHidden}}"
             data-raritypercentage="{{this.rarityPercentage}}">
             {{this.achievementID}} - {{this.achievementName}} - {{this.name}}
@@ -90,7 +104,7 @@
         {{/each}}
     </select>
 
-    <label for='update_achievement_title'>Title: </label>
+    <label for='update_achievement_title'>Game Title: </label>
     <select name='update_achievement_title' id='update_achievement_title' required >
     <option value="" disabled selected>Select a Game</option>
     {{#each games}}
@@ -98,7 +112,7 @@
     {{/each}}
     </select>
 
-    <label for='update_achievement_name'>Name: </label>
+    <label for='update_achievement_name'>Platform Name: </label>
     <select name='update_achievement_name' id='update_achievement_name' required >
     <option value="" disabled selected>Select a Platform</option>
     {{#each platforms}}
@@ -109,11 +123,17 @@
     <label for='update_achievement_achievementName'>Achievement Name: </label>
     <input type='text' name='update_achievement_achievementName' id='update_achievement_achievementName' required />
 
+    <label for='update_achievement_description'>Description: </label>
+    <textarea name='update_achievement_description' id='update_achievement_description' required></textarea>
+
     <label for='update_achievement_isHidden'>Hidden Achievement: </label>
-    <input type='checkbox' name='update_achievement_isHidden' id='update_achievement_isHidden' value='1'/>
+    <select name='update_achievement_isHidden' id='update_achievement_isHidden' required>
+        <option value='0'>No</option>
+        <option value='1'>Yes</option>
+    </select>
 
     <label for='update_achievement_rarityPercentage'>Rarity Percentage: </label>
-    <input type='number' name='update_achievement_rarityPercentage' id='update_achievement_rarityPercentage' min='0' max='100' step="0.01" required />
+    <input type='number' name='update_achievement_rarityPercentage' id='update_achievement_rarityPercentage' min='0' max='100' step="0.01"/>
     <input type='submit' />
 </form>
 
@@ -124,13 +144,15 @@
     const gameID = selectedOption.dataset.gameid;
     const platformID = selectedOption.dataset.platformid;
     const achievementName = selectedOption.dataset.achievementname;
+    const description = selectedOption.dataset.description;
     const isHidden = selectedOption.dataset.ishidden;
     const rarityPercentage = selectedOption.dataset.raritypercentage;
 
     document.getElementById('update_achievement_title').value = gameID;
     document.getElementById('update_achievement_name').value = platformID;
     document.getElementById('update_achievement_achievementName').value = achievementName;
-    document.getElementById('update_achievement_isHidden').checked = (isHidden === "1");
+    document.getElementById('update_achievement_description').value = description;
+    document.getElementById('update_achievement_isHidden').value = isHidden;
     document.getElementById('update_achievement_rarityPercentage').value = rarityPercentage;
     });
 </script>

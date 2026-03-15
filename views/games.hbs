@@ -1,5 +1,6 @@
 {{! Adapted from CS 340 bsg_people example web application}}
 <h1>Games</h1>
+<p class='homepageDescription'>Manage the game library.</p>
 
 {{! READ table }}
 <table>
@@ -37,6 +38,10 @@
     </tbody>
 </table>
 
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
+
 {{! CREATE form }}
 <h2>Create a Game</h2>
 <form class='cuForm' id='create_game_form' method="POST" action="/games/add">
@@ -47,7 +52,7 @@
     <input type='text' name='create_game_developer' id='create_game_developer' required />
 
     <label for='create_game_releaseYear'>Release Year: </label>
-    <input type='number' name='create_game_releaseYear' id='create_game_releaseYear' min='1900' max='2100' required />
+    <input type='number' name='create_game_releaseYear' id='create_game_releaseYear' min='1900' max='2026' required />
 
     <input type='submit' />
 </form>
@@ -59,7 +64,7 @@
     <select name='update_game_id' id='update_game_id' required>
         <option value='' disabled selected>Select a Game</option>
         {{#each games}}
-        <option value='{{this.gameID}}' required>
+        <option value='{{this.gameID}}' data-title='{{this.title}}' data-developer='{{this.developer}}' data-releaseyear='{{this.releaseYear}}'>
             {{this.gameID}}
             -
             {{this.title}}
@@ -74,7 +79,15 @@
     <input type='text' name='update_game_manufacturer' id='update_game_manufacturer' required />
 
     <label for='update_game_releaseYear'>Release Year: </label>
-    <input type='number' name='update_game_releaseYear' id='update_game_releaseYear' min='1900' max='2100' required />
+    <input type='number' name='update_game_releaseYear' id='update_game_releaseYear' min='1900' max='2026' required />
 
     <input type='submit' />
 </form>
+<script>
+    document.getElementById('update_game_id').addEventListener('change', function(){
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById('update_game_title').value = selectedOption.dataset.title;
+        document.getElementById('update_game_manufacturer').value = selectedOption.dataset.developer;
+        document.getElementById('update_game_releaseYear').value = selectedOption.dataset.releaseyear;
+    });
+</script>

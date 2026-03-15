@@ -1,14 +1,108 @@
-h1, h2 { margin-left: 16px;}
-table {border-collapse: collapse;margin-left: 32px;}
-th, td {
-    border: 1px solid #ddd;
+:root {
+    background-color: #eeeeee;
+    color: #444444;
+    font-size: 16px;
+}
+
+h1,
+h2 {
+    margin-left: 16px;
+}
+
+table {
+    border-collapse: collapse;
+    margin-left: 32px;
+}
+
+th,
+td {
+    border: 1px solid #444444;
     padding: 12px;
     text-align: center;
 }
-th {background-color: #f2f2f2;}
-tr:nth-child(even) {background-color: #f9f9f9;}
-.cuForm { margin-left: 32px;}
-input, select { margin-bottom: 4px;margin-right: 12px;}
-nav {background-color: #cecece;padding: 16px;}
-a {margin-left: 16px;}
-.homepageDescription {margin-left: 32px;}
+
+th {
+    background-color: #bccabb;
+}
+
+tr:nth-child(odd) {
+    background-color: #dddddd;
+}
+
+.cuForm {
+    margin-left: 32px;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+}
+
+.cuForm label {
+    margin-top: 8px;
+}
+
+input,
+select,
+textarea {
+    margin-bottom: 4px;
+    margin-right: 12px;
+    border-radius: 0;
+    border: 1px solid #444444;
+    background-color: #fafafa;
+}
+
+.cuForm input[type='submit'] {
+    margin-top: 12px;
+    width: fit-content;
+    background-color: #dddddd;
+}
+.cuForm input[type='submit']:hover {
+    background-color: #888888;
+    color: #ffffff;
+}
+
+button {
+    border: 1px solid #444444;
+    background-color: #dddddd;
+}
+button:hover {
+    border: 1px solid #444444;
+    background-color: #888888;
+    color: #ffffff;
+}
+
+nav {
+    background-color: #cccccc;
+    padding: 16px;
+}
+.navReset {
+    background: none;
+    border: none;
+    padding: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    font: inherit;
+    color: #444444;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.navReset:hover {
+    background-color: #bccabb;
+    border: none;
+    color: #444444;
+}
+
+a {
+    color: #444444;
+}
+
+a:hover {
+    background-color: #bccabb;
+}
+
+.homepageDescription {
+    margin-left: 32px;
+}
+.pageLabel {
+    background-color: #bccabb;
+    padding: 1px 4px;
+}

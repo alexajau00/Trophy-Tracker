@@ -1,5 +1,6 @@
 {{! Adapted from CS 340 bsg_people example web application}}
 <h1>Platforms</h1>
+<p class='homepageDescription'>Manage gaming platforms.</p>
 
 {{! READ table }}
 <table>
@@ -35,6 +36,10 @@
     </tbody>
 </table>
 
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
+
 {{! CREATE form }}
 <h2>Create a Platform</h2>
 <form class='cuForm' id='create_platform_form' method="POST" action="/platforms/add">
@@ -51,10 +56,10 @@
 <h2>Update a Platform</h2>
 <form class='cuForm' id='update_platform_form' method="POST" action="/platforms/update">
     <label for='update_platform_id'>Platform to Update: </label>
-    <select name='update_platform_id' id='update_person_id' required>
+    <select name='update_platform_id' id='update_platform_id' required>
         <option value='' disabled selected>Select a Platform</option>
         {{#each platforms}}
-        <option value='{{this.platformID}}' required>
+        <option value='{{this.platformID}}' data-name='{{this.name}}' data-manufacturer='{{this.manufacturer}}'>
             {{this.platformID}}
             -
             {{this.name}}
@@ -70,3 +75,10 @@
 
     <input type='submit' />
 </form>
+<script>
+    document.getElementById('update_platform_id').addEventListener('change', function(){
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById('update_platform_name').value = selectedOption.dataset.name;
+        document.getElementById('update_platform_manufacturer').value = selectedOption.dataset.manufacturer;
+    });
+</script>
