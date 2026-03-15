@@ -63,7 +63,8 @@ BEGIN
         playerID INT NOT NULL,
         PRIMARY KEY (playerGameID),
         FOREIGN KEY (gameID) REFERENCES Games(gameID) ON DELETE CASCADE,
-        FOREIGN KEY (playerID) REFERENCES Players(playerID) ON DELETE CASCADE
+        FOREIGN KEY (playerID) REFERENCES Players(playerID) ON DELETE CASCADE,
+        UNIQUE (playerID, gameID) -- ensure a player can only have one entry per game
     );
 
     CREATE TABLE playerAchievements (
@@ -73,7 +74,8 @@ BEGIN
         dateAchieved date NOT NULL,
         PRIMARY KEY (playerAchievementID),
         FOREIGN KEY (playerID) REFERENCES Players(playerID) ON DELETE CASCADE,
-        FOREIGN KEY (achievementID) REFERENCES Achievements(achievementID) ON DELETE CASCADE
+        FOREIGN KEY (achievementID) REFERENCES Achievements(achievementID) ON DELETE CASCADE,
+        UNIQUE (playerID, achievementID) -- ensure a player can only earn a specific achievement once
     );
 
     CREATE TABLE gamePlatforms (
@@ -82,7 +84,8 @@ BEGIN
         platformID INT NOT NULL,
         PRIMARY KEY (gamePlatformID),
         FOREIGN KEY (gameID) REFERENCES Games(gameID) ON DELETE CASCADE,
-        FOREIGN KEY (platformID) REFERENCES Platforms(platformID) ON DELETE CASCADE
+        FOREIGN KEY (platformID) REFERENCES Platforms(platformID) ON DELETE CASCADE,
+        UNIQUE (gameID, platformID) -- ensure a game can only be associated with a specific platform once
     );
 
     -- -----------------------------------------------
