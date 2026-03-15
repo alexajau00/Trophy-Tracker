@@ -53,7 +53,7 @@ app.get('/players', async function (req, res) {
 
         // Render the players.hbs file, and also send the renderer
         //  an object that contains our players information
-        res.render('players', { players: players });
+        res.render('players', { players: players, error: req.query.error});
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -75,8 +75,9 @@ app.post('/players/add', async function (req, res) {
         res.redirect('/players');
     } catch (error) {
         console.error('Error inserting player:', error);
-        res.status(500).send(
-            'Error inserting player.');
+        res.redirect('/players?error=ERROR: Could not add player. Username or email may already exist.');
+        // res.status(500).send(
+        //     'Error inserting player.');
     }
 });
 
@@ -109,9 +110,10 @@ app.post('/players/update', async function(req, res) {
         res.redirect('/players');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating player.'
-        )
+        res.redirect('/players?error=ERROR: Could not update player. Username or email may already exist.');
+        // res.status(400).send(
+        //     'Error updating player.'
+        // )
     }
 });
 
@@ -123,7 +125,7 @@ app.get('/games', async function (req, res) {
 
         // Render the games.hbs file, and also send the renderer
         //  an object that contains our games information
-        res.render('games', { games: games });
+        res.render('games', { games: games, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -146,8 +148,7 @@ app.post('/games/add', async function (req, res) {
         res.redirect('/games');
     } catch (error) {
         console.error('Error inserting game:', error);
-        res.status(500).send(
-            'Error inserting game.');
+        res.redirect('/games?error=Could not add game. A game with that title may already exist.');
     }
 });
 
@@ -181,9 +182,7 @@ app.post('/games/update', async function(req, res) {
         res.redirect('/games');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating games.'
-        )
+        res.redirect('/games?error=Could not update game. A game with that title may already exist.');
     }
 });
 
@@ -195,7 +194,7 @@ app.get('/platforms', async function (req, res) {
 
         // Render the platforms.hbs file, and also send the renderer
         //  an object that contains our platforms information
-        res.render('platforms', { platforms: platforms });
+        res.render('platforms', { platforms: platforms, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -217,8 +216,7 @@ app.post('/platforms/add', async function (req, res) {
         res.redirect('/platforms');
     } catch (error) {
         console.error('Error inserting platforms:', error);
-        res.status(500).send(
-            'Error inserting platforms.');
+        res.redirect('/platforms?error=Could not add platform. A platform with that name may already exist.');
     }
 });
 
@@ -251,9 +249,7 @@ app.post('/platforms/update', async function(req, res) {
         res.redirect('/platforms');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating platforms.'
-        )
+        res.redirect('/platforms?error=Could not update platform. A platform with that name may already exist.');
     }
 });
 
@@ -275,7 +271,7 @@ app.get('/achievements', async function (req, res) {
 
         // Render the acheivements.hbs file, and also send the renderer
         //  an object that contains our acheivements information
-        res.render('achievements', { achievements: achievements, games, platforms });
+        res.render('achievements', { achievements: achievements, games, platforms, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -302,8 +298,7 @@ app.post('/achievements/add', async function (req, res) {
         res.redirect('/achievements');
     } catch (error) {
         console.error('Error inserting achievements:', error);
-        res.status(500).send(
-            'Error inserting achievements.');
+        res.redirect('/achievements?error=Could not add achievement. Please check your inputs and try again.');
     }
 });
 
@@ -341,9 +336,7 @@ app.post('/achievements/update', async function(req, res) {
         res.redirect('/achievements');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating achievements.'
-        )
+        res.redirect('/achievements?error=Could not update achievement. Please check your inputs and try again.');
     }
 });
 
@@ -364,7 +357,7 @@ app.get('/players_games', async function (req, res) {
 
         // Render the player_games.hbs file, and also send the renderer
         //  an object that contains our player game information
-        res.render('players_games', { playerGames: playerGames, users, games });
+        res.render('players_games', { playerGames: playerGames, users, games, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -386,8 +379,7 @@ app.post('/players_games/add', async function (req, res) {
         res.redirect('/players_games');
     } catch (error) {
         console.error('Error inserting playerGames:', error);
-        res.status(500).send(
-            'Error inserting playerGames.');
+        res.redirect('/players_games?error=Could not add entry. That player may already have this game.');
     }
 });
 
@@ -419,9 +411,7 @@ app.post('/players_games/update', async function(req, res) {
         res.redirect('/players_games');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating player.'
-        )
+        res.redirect('/players_games?error=Could not update entry. That player may already have this game.');
     }
 });
 
@@ -442,7 +432,7 @@ app.get('/players_achievements', async function (req, res) {
 
         // Render the acheivements.hbs file, and also send the renderer
         //  an object that contains our player acheivements information
-        res.render('players_achievements', { playerAchievements: playerAchievements, players, achievements });
+        res.render('players_achievements', { playerAchievements: playerAchievements, players, achievements, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -469,8 +459,7 @@ app.post('/players_achievements/add', async function (req, res) {
         res.redirect('/players_achievements');
     } catch (error) {
         console.error('Error inserting players achievement:', error);
-        res.status(500).send(
-            'Error inserting players achievement.');
+        res.redirect('/players_achievements?error=Could not add entry. That player may already have this achievement.');
     }
 });
 
@@ -507,9 +496,7 @@ app.post('/players_achievements/update', async function(req, res) {
         res.redirect('/players_achievements');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating player.'
-        )
+        res.redirect('/players_achievements?error=Could not update entry. That player may already have this achievement.');
     }
 });
 
@@ -530,7 +517,7 @@ app.get('/game_platforms', async function (req, res) {
 
         // Render the game_platforms.hbs file, and also send the renderer
         //  an object that contains our game platform information
-        res.render('game_platforms', { gamePlatforms: gamePlatforms, games, platforms });
+        res.render('game_platforms', { gamePlatforms: gamePlatforms, games, platforms, error: req.query.error });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -552,8 +539,7 @@ app.post('/game_platforms/add', async function (req, res) {
         res.redirect('/game_platforms');
     } catch (error) {
         console.error('Error inserting game platforms:', error);
-        res.status(500).send(
-            'Error inserting game platforms.');
+        res.redirect('/game_platforms?error=Could not add entry. That game and platform combination may already exist.');
     }
 });
 
@@ -585,9 +571,7 @@ app.post('/game_platforms/update', async function(req, res) {
         res.redirect('/game_platforms');
     } catch (error) {
         console.log(error);
-        res.status(400).send(
-            'Error updating game platforms.'
-        )
+        res.redirect('/game_platforms?error=Could not update entry. That game and platform combination may already exist.');
     }
 });
 

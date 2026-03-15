@@ -35,6 +35,10 @@
     </tbody>
 </table>
 
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
+
 {{! CREATE form }}
 <h2>Create a Platform</h2>
 <form class='cuForm' id='create_platform_form' method="POST" action="/platforms/add">

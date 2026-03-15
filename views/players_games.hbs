@@ -35,6 +35,10 @@
     </tbody>
 </table>
 
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
+
 {{! CREATE form }}
 <h2>Add a Players Game</h2>
 <form class='cuForm' id='create_playerGames_form' method="POST" action="/players_games/add">

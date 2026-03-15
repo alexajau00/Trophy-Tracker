@@ -37,6 +37,10 @@
     </tbody>
 </table>
 
+{{#if error}}
+    <p style="color: red; margin-left: 32px;">{{error}}</p>
+{{/if}}
+
 {{! CREATE form }}
 <h2>Add a Players Achievement</h2>
 <form class='cuForm' id='create_playerAchievements_form' method="POST" action="/players_achievements/add">
