@@ -74,6 +74,22 @@ nav {
     background-color: #cccccc;
     padding: 16px;
 }
+.navReset {
+    background: none;
+    border: none;
+    padding: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    font: inherit;
+    color: #444444;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.navReset:hover {
+    background-color: #bccabb;
+    border: none;
+    color: #444444;
+}
 
 a {
     color: #444444;
@@ -85,4 +101,8 @@ a:hover {
 
 .homepageDescription {
     margin-left: 32px;
+}
+.pageLabel {
+    background-color: #bccabb;
+    padding: 1px 4px;
 }
