@@ -3,21 +3,86 @@
     color: #444444;
     font-size: 16px;
 }
-h1, h2 { margin-left: 16px;}
-table {border-collapse: collapse;margin-left: 32px;}
-th, td {
+
+h1,
+h2 {
+    margin-left: 16px;
+}
+
+table {
+    border-collapse: collapse;
+    margin-left: 32px;
+}
+
+th,
+td {
     border: 1px solid #444444;
     padding: 12px;
     text-align: center;
 }
+
 th {
     background-color: #bccabb;
 }
-tr:nth-child(odd) {background-color: #dddddd;}
-.cuForm { margin-left: 32px;}
-input, select { margin-bottom: 4px;margin-right: 12px; border-radius:0;border:1px solid #444444;}
-button {border:1px solid #444444;}
-nav {background-color: #cccccc;padding: 16px;}
-a {color:#444444;}
-a:hover {background-color: #bccabb;}
-.homepageDescription {margin-left: 32px;}
+
+tr:nth-child(odd) {
+    background-color: #dddddd;
+}
+
+.cuForm {
+    margin-left: 32px;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+}
+
+.cuForm label {
+    margin-top: 8px;
+}
+
+input,
+select,
+textarea {
+    margin-bottom: 4px;
+    margin-right: 12px;
+    border-radius: 0;
+    border: 1px solid #444444;
+    background-color: #fafafa;
+}
+
+.cuForm input[type='submit'] {
+    margin-top: 12px;
+    width: fit-content;
+    background-color: #dddddd;
+}
+.cuForm input[type='submit']:hover {
+    background-color: #888888;
+    color: #ffffff;
+}
+
+button {
+    border: 1px solid #444444;
+    background-color: #dddddd;
+}
+button:hover {
+    border: 1px solid #444444;
+    background-color: #888888;
+    color: #ffffff;
+}
+
+nav {
+    background-color: #cccccc;
+    padding: 16px;
+}
+
+a {
+    color: #444444;
+}
+
+a:hover {
+    background-color: #bccabb;
+}
+
+.homepageDescription {
+    margin-left: 32px;
+}

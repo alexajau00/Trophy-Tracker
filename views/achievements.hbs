@@ -69,7 +69,10 @@
     <textarea name='create_achievement_description' id='create_achievement_description' required></textarea>
 
     <label for='create_achievement_isHidden'>Hidden Achievement: </label>
-    <input type='checkbox' name='create_achievement_isHidden' id='create_achievementisHidden' value='0'/>
+    <select name='create_achievement_isHidden' id='create_achievement_isHidden' required>
+        <option value='0'>No</option>
+        <option value='1'>Yes</option>
+    </select>
 
     <label for='create_achievement_rarityPercentage'>Rarity Percentage: </label>
     <input type='number' name='create_achievement_rarityPercentage' id='create_achievement_rarityPercentage' min='0' max='100' step="0.01" required />
@@ -119,7 +122,10 @@
     <textarea name='update_achievement_description' id='update_achievement_description' required></textarea>
 
     <label for='update_achievement_isHidden'>Hidden Achievement: </label>
-    <input type='checkbox' name='update_achievement_isHidden' id='update_achievement_isHidden' value='1'/>
+    <select name='update_achievement_isHidden' id='update_achievement_isHidden' required>
+        <option value='0'>No</option>
+        <option value='1'>Yes</option>
+    </select>
 
     <label for='update_achievement_rarityPercentage'>Rarity Percentage: </label>
     <input type='number' name='update_achievement_rarityPercentage' id='update_achievement_rarityPercentage' min='0' max='100' step="0.01" required />
@@ -141,7 +147,7 @@
     document.getElementById('update_achievement_name').value = platformID;
     document.getElementById('update_achievement_achievementName').value = achievementName;
     document.getElementById('update_achievement_description').value = description;
-    document.getElementById('update_achievement_isHidden').checked = (isHidden === "1");
+    document.getElementById('update_achievement_isHidden').value = isHidden;
     document.getElementById('update_achievement_rarityPercentage').value = rarityPercentage;
     });
 </script>

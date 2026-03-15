@@ -291,7 +291,7 @@ app.post('/achievements/add', async function (req, res) {
         const platformID = req.body.create_achievement_name;
         const achievementName = req.body.create_achievement_achievementName;
         const description = req.body.create_achievement_description;
-        const isHidden = req.body.create_achievement_isHidden ? 1: 0;
+        const isHidden = req.body.create_achievement_isHidden;
         const rarityPercentage = req.body.create_achievement_rarityPercentage;
 
         const query1 = `CALL sp_insert_achievement(?, ?, ?, ?, ?, ?);`;
@@ -330,7 +330,7 @@ app.post('/achievements/update', async function(req, res) {
         const platformID = req.body.update_achievement_name;
         const achievementName = req.body.update_achievement_achievementName;
         const description = req.body.update_achievement_description;
-        const isHidden = req.body.update_achievement_isHidden ? 1: 0;
+        const isHidden = req.body.update_achievement_isHidden;
         const rarityPercentage = req.body.update_achievement_rarityPercentage;
 
         const query1 = `CALL sp_update_achievement(?, ?, ?, ?, ?, ?, ?);`;
