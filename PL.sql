@@ -4,6 +4,10 @@
 -- CS340 Project Step 4 (DRAFT)
 -- -------------------------------------------
 
+-- -------------------------------------------
+-- Players
+-- -------------------------------------------
+
 -- DELETE player sp to demonstrate RESET
 DROP PROCEDURE IF EXISTS sp_demo_delete_player;
 DELIMITER //
